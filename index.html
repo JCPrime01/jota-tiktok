@@ -6,6 +6,57 @@
 <title>Odd 100 — COPA DO MUNDO</title>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
 <script>
+(function(){
+  var B="https://track.grupojc.cc/track/b215d5e4-a406-450d-bc5f-f9687470105e";
+  var R="https://track.grupojc.cc/track/b215d5e4-a406-450d-bc5f-f9687470105e/redirect";
+  var k="_tid";
+  var sid=sessionStorage.getItem(k)||(Math.random().toString(36).slice(2)+Date.now().toString(36));
+  sessionStorage.setItem(k,sid);
+  var sp=new URLSearchParams(location.search);
+  var utms=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
+  var utmParams={};
+  utms.forEach(function(u){ var v=sp.get(u); if(v) utmParams[u]=v; });
+  if(Object.keys(utmParams).length) sessionStorage.setItem("_utms",JSON.stringify(utmParams));
+  function getUtms(){ try{ return JSON.parse(sessionStorage.getItem("_utms")||"{}"); }catch(e){ return {}; } }
+  function track(type,meta){
+    fetch(B,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({event_type:type,session_id:sid,url:location.href,metadata:Object.assign({},getUtms(),meta||{})}),
+      keepalive:true
+    }).catch(function(){});
+  }
+  track("pageview");
+  function wireButtons(){
+    document.querySelectorAll("[data-trackpanel]").forEach(function(el){
+      var q=new URLSearchParams(getUtms()).toString();
+      el.href=R+(q?"?"+q:"");
+      el.addEventListener("click",function(){
+      },true);
+    });
+  }
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded", wireButtons);
+  } else {
+    wireButtons();
+  }
+  document.addEventListener("click",function(e){
+    var el=e.target;
+    while(el&&el!==document.body){
+      if(el.dataset&&el.dataset.track){
+        track("click",{label:el.dataset.track,text:el.innerText||""});
+        return;
+      }
+      if(el.tagName==="BUTTON"||el.tagName==="A"){
+        track("click",{tag:el.tagName,text:el.innerText||"",href:el.href||""});
+        return;
+      }
+      el=el.parentElement;
+    }
+  },true);
+})();
+</script>
+<script>
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
 n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -681,7 +732,7 @@ body::after {
   </div>
 
   <div class="cta-wrap">
-    <a href="#" class="cta" onclick="dispararLead(event)">
+    <a href="#" class="cta" data-trackpanel onclick="dispararLead(event)">
       <span class="cta-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.56-.46.7-.92.43l-2.56-1.88-1.24 1.19c-.14.14-.26.26-.52.26l.18-2.62 4.74-4.28c.2-.18-.04-.28-.32-.1L7.38 14.4l-2.52-.79c-.54-.17-.55-.54.12-.8l9.84-3.8c.46-.16.86.11.82.79z"/></svg></span>
       <span class="cta-text">RECEBER NO TELEGRAM</span>
       <span class="cta-arrow">›</span>
