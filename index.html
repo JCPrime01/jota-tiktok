@@ -102,7 +102,7 @@ async function dispararLead(e) {
   await new Promise(r => setTimeout(r, 400));
 
   try {
-    await fetch('https://track-jp-production.up.railway.app/api/lead', {
+    await fetch('https://api-tiktok-production.up.railway.app/api/lead', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
