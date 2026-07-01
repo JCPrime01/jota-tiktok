@@ -1,515 +1,642 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Odd 100 — COPA DO MUNDO</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+<!DOCTYPE html>                                                                                                                 
+  <html lang="pt-BR">                                                                                                                                                                                       
+  <head>                                                                                                                                                                                                    
+  <meta charset="UTF-8"/>                                                                                                                                                                                   
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>                                                                                                                                   
+  <title>Odd 100 — COPA DO MUNDO</title>                                                                                                                                                                    
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">                                                             
+  <script>                                                                                                                                                                                                  
+  (function(){                                                                                                                                                                                              
+    var B="https://track.grupojc.cc/track/b215d5e4-a406-450d-bc5f-f9687470105e";                                                                                                                            
+    var R="https://track.grupojc.cc/track/b215d5e4-a406-450d-bc5f-f9687470105e/redirect";                                                                                                                   
+    var k="_tid";                                                                                                                                                                                           
+    var sid=sessionStorage.getItem(k)||(Math.random().toString(36).slice(2)+Date.now().toString(36));                                                                                                       
+    sessionStorage.setItem(k,sid);                                                                                                                                                                          
+    var sp=new URLSearchParams(location.search);                                                                                                                                                            
+    var utms=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];                                                                                                                           
+    var utmParams={};                                                                                                                                                                                       
+    utms.forEach(function(u){ var v=sp.get(u); if(v) utmParams[u]=v; });                                                                                                                                  
+    if(Object.keys(utmParams).length) sessionStorage.setItem("_utms",JSON.stringify(utmParams));                                                                                                            
+    function getUtms(){ try{ return JSON.parse(sessionStorage.getItem("_utms")||"{}"); }catch(e){ return {}; } }                                                                                            
+    function track(type,meta){                                                                                                                                                                              
+      fetch(B,{                                                                                                                                                                                             
+        method:"POST",                                                                                                                                                                                      
+        headers:{"Content-Type":"application/json"},                                                                                                                                                        
+        body:JSON.stringify({event_type:type,session_id:sid,url:location.href,metadata:Object.assign({},getUtms(),meta||{})}),                                                                              
+        keepalive:true                                                                                                                                                                                      
+      }).catch(function(){});
+    }                                                                                                                                                                                                       
+    track("pageview");                                                                                                                                                                                    
+    function wireButtons(){                                                                                                                                                                                 
+      document.querySelectorAll("[data-trackpanel]").forEach(function(el){                                                                                                                                
+        var q=new URLSearchParams(getUtms()).toString();                                                                                                                                                    
+        el.href=R+(q?"?"+q:"");                                                                                                                                                                             
+        el.addEventListener("click",function(){                                                                                                                                                             
+        },true);                                                                                                                                                                                            
+      });                                                                                                                                                                                                 
+    }                                                                                                                                                                                                       
+    if(document.readyState==="loading"){                                                                                                                                                                  
+      document.addEventListener("DOMContentLoaded", wireButtons);
+    } else {                                                                                                                                                                                                
+      wireButtons();
+    }                                                                                                                                                                                                       
+    document.addEventListener("click",function(e){                                                                                                                                                        
+      var el=e.target;
+      while(el&&el!==document.body){                                                                                                                                                                        
+        if(el.dataset&&el.dataset.track){
+          track("click",{label:el.dataset.track,text:el.innerText||""});                                                                                                                                    
+          return;                                                                                                                                                                                           
+        }                                                                                                                                                                                                   
+        if(el.tagName==="BUTTON"||el.tagName==="A"){                                                                                                                                                        
+          track("click",{tag:el.tagName,text:el.innerText||"",href:el.href||""});                                                                                                                         
+          return;                                                                                                                                                                                           
+        }
+        el=el.parentElement;                                                                                                                                                                                
+      }                                                                                                                                                                                                     
+    },true);
+  })();                                                                                                                                                                                                     
+  </script>                                                                                                                                                                                               
 
-<!-- TikTok Pixel -->
-<script>
-!function (w, d, t) {
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
-var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
-;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-  ttq.load('D8TF8VRC77U2JEPM6MO0');
-  ttq.page();
-}(window, document, 'ttq');
-</script>
+  <!-- TikTok Pixel -->                                                                                                                                                                                     
+  <script>
+  !function (w, d, t) {                                                                                                                                                                                     
+    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revok
+  eConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var                                                             
+  i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(
+  var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var                                                                                   
+  r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new                                                       
+  Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script")
+  ;n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};                                                          
+    ttq.load('D8TF8VRC77U2JEPM6MO0');                                                                                                                                                                       
+    ttq.page();                                                                                                                                                                                             
+  }(window, document, 'ttq');                                                                                                                                                                               
+  </script>                                                                                                                                                                                                 
+                                                                                                                                                                                                          
+  <!-- Meta Pixel -->                                                                                                                                                                                       
+  <script>                                                                                                                                                                                                
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?                                                                                                                                                         
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';                                                                                                                                                 
+  n.queue=[];t=b.createElement(e);t.async=!0;                                                                                                                                                               
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',                                                                                                                                                
+  'https://connect.facebook.net/en_US/fbevents.js');                                                                                                                                                      
+  fbq('init', '1263049232641635');                                                                                                                                                                          
+  fbq('track', 'PageView');                                                                                                                                                                                 
+   
+  const REDIRECT_URL = 'https://track.grupojc.cc/track/b215d5e4-a406-450d-bc5f-f9687470105e/redirect?utm_campaign=bateu';                                                                                   
+                                                                                                                                                                                                          
+  function isTikTokBrowser() {                                                                                                                                                                              
+    const ua = navigator.userAgent || '';                                                                                                                                                                 
+    return /musical_ly|TikTok|BytedanceWebview|ByteLocale/i.test(ua);                                                                                                                                       
+  }                                                                                                                                                                                                         
+   
+  async function dispararLead(e) {                                                                                                                                                                          
+    e.preventDefault();                                                                                                                                                                                   
+    const eventId = 'cr_' + Date.now();
+                                                                                                                                                                                                            
+    // Meta
+    fbq('track', 'CompleteRegistration', { currency: 'BRL', value: 0 }, { eventID: eventId });                                                                                                              
+                                                                                                                                                                                                            
+    // TikTok
+    ttq.track('SubmitForm');                                                                                                                                                                                
+                                                                                                                                                                                                            
+    // aguarda pixels enviarem o beacon antes de redirecionar                                                                                                                                               
+    await new Promise(r => setTimeout(r, 400));                                                                                                                                                             
+                                                                                                                                                                                                            
+    try {                                                                                                                                                                                                 
+      await fetch('https://track-jp-production.up.railway.app/api/lead', {
+        method: 'POST',                                                                                                                                                                                     
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({                                                                                                                                                                              
+          fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || null,                                                                                                                                          
+          fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || null,                                                                                                                                          
+          userAgent: navigator.userAgent,                                                                                                                                                                   
+          eventId: eventId                                                                                                                                                                                  
+        })                                                                                                                                                                                                
+      });                                                                                                                                                                                                   
+    } catch(err) {}                                                                                                                                                                                       
 
-<!-- Meta Pixel -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1263049232641635');
-fbq('track', 'PageView');
-</script>
-
-<script>
-async function dispararLead(e) {
-  e.preventDefault();
-  const eventId = 'cr_' + Date.now();
-
-  // Meta
-  fbq('track', 'CompleteRegistration', { currency: 'BRL', value: 0 }, { eventID: eventId });
-
-  // TikTok
-  ttq.track('SubmitForm');
-
-  try {
-    await fetch('https://track-jp-production.up.railway.app/api/lead', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        fbp: document.cookie.match(/_fbp=([^;]+)/)?.[1] || null,
-        fbc: document.cookie.match(/_fbc=([^;]+)/)?.[1] || null,
-        userAgent: navigator.userAgent,
-        eventId: eventId
-      })
-    });
-  } catch(err) {}
-  window.location.href = 'https://smartico-dash.up.railway.app/track/b215d5e4-a406-450d-bc5f-f9687470105e/redirect?utm_campaign=bateu';
-}
-</script>
-
-<style>
-*{ margin:0; padding:0; box-sizing:border-box; }
-html, body {
-  font-family: 'Montserrat', sans-serif;
-  color: #fff;
-  -webkit-tap-highlight-color: transparent;
-  min-height: 100%;
-  background: #000;
-  position: relative;
-}
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.035;
-  pointer-events: none;
-  z-index: -1;
-}
-.page {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 32px 20px 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-  min-height: 100vh;
-}
-.badge {
-  background: linear-gradient(90deg, #c49a00, #f5c518, #c49a00);
-  border-radius: 999px;
-  padding: 6px 20px;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #000;
-}
-.hero { text-align: center; line-height: 1; }
-.hero-odd {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 6px;
-}
-.hero-odd-word {
-  font-size: 52px;
-  font-weight: 900;
-  color: #fff;
-  text-shadow: 0 0 30px rgba(255,255,255,.2);
-  font-style: italic;
-}
-.hero-odd-num {
-  font-size: 90px;
-  font-weight: 900;
-  color: #f5c518;
-  text-shadow: 0 0 30px rgba(245,197,24,.6), 0 0 80px rgba(245,197,24,.3);
-  font-style: italic;
-  line-height: 1;
-}
-.subhead {
-  font-size: 18px;
-  font-weight: 800;
-  text-align: center;
-  line-height: 1.35;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.subhead .hl-green { color: #4ade80; }
-.subhead .hl-gold  { color: #f5c518; }
-
-.carousel-wrap { width: 100%; }
-.carousel-viewport { width: 100%; overflow: hidden; border-radius: 16px; }
-.carousel-track {
-  display: flex;
-  transition: transform 0.45s cubic-bezier(.4,0,.2,1);
-  will-change: transform;
-}
-.match-card {
-  min-width: 100%;
-  background: rgba(0,0,0,.55);
-  border: 1.5px solid rgba(74,222,128,.35);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 0 30px rgba(74,222,128,.1), 0 0 60px rgba(74,222,128,.05), inset 0 0 40px rgba(0,0,0,.3);
-}
-.card-header {
-  background: rgba(255,255,255,.05);
-  border-bottom: 1px solid rgba(74,222,128,.2);
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-.teams-row {
-  padding: 18px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  border-bottom: 1px solid rgba(255,255,255,.07);
-}
-.team-side {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  flex: 1;
-}
-.team-logo {
-  width: 64px; height: 64px;
-  border-radius: 50%;
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.1);
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  font-size: 36px;
-}
-.team-logo img { width: 46px; height: 46px; object-fit: contain; }
-.team-name {
-  font-size: 12px;
-  font-weight: 800;
-  text-align: center;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.85);
-}
-.vs-text {
-  font-size: 22px;
-  font-weight: 900;
-  color: rgba(255,255,255,.7);
-  letter-spacing: -1px;
-  flex-shrink: 0;
-}
-.comp-row {
-  padding: 10px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border-bottom: 1px solid rgba(255,255,255,.07);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.6);
-}
-.day-pill {
-  background: #16a34a;
-  border-radius: 6px;
-  padding: 3px 10px;
-  font-size: 11px;
-  font-weight: 800;
-  color: #fff;
-}
-.market-row {
-  padding: 12px 16px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,.07);
-}
-.market-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: #4ade80;
-  margin-bottom: 4px;
-}
-.market-name {
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: .5px;
-  text-transform: uppercase;
-}
-.odds-row {
-  padding: 14px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-.odd-from { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.odd-from-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.4); text-transform: uppercase; }
-.odd-from-val { font-size: 28px; font-weight: 900; color: rgba(255,80,80,.7); position: relative; }
-.odd-from-val::after {
-  content: ''; position: absolute; top: 50%; left: -4px; right: -4px;
-  height: 2.5px; background: rgba(255,80,80,.8); transform: rotate(-8deg);
-}
-.odd-arrow { font-size: 28px; color: #4ade80; font-weight: 900; animation: arrow-pulse 1.2s ease-in-out infinite; }
-@keyframes arrow-pulse { 50% { transform: translateX(4px); opacity: .6; } }
-.odd-to { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-.odd-to-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.4); text-transform: uppercase; }
-.odd-to-val {
-  font-size: 46px; font-weight: 900; color: #f5c518;
-  text-shadow: 0 0 20px rgba(245,197,24,.5); line-height: 1;
-}
-
-.carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }
-.dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: rgba(255,255,255,.2); cursor: pointer;
-  transition: background .3s, transform .3s;
-}
-.dot.active { background: #f5c518; transform: scale(1.3); }
-
-.scarcity-box {
-  width: 100%;
-  background: rgba(245,197,24,.07);
-  border: 1px solid rgba(245,197,24,.2);
-  border-radius: 12px;
-  padding: 12px 16px;
-  text-align: center;
-}
-.scarcity-title { font-size: 13px; font-weight: 800; color: #f5c518; letter-spacing: .5px; margin-bottom: 4px; }
-.scarcity-sub { font-size: 12px; color: rgba(255,255,255,.55); font-weight: 600; }
-
-.cta-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-.cta {
-  width: 100%; border: none; border-radius: 14px; padding: 20px 24px;
-  font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 900;
-  letter-spacing: 1.5px; text-transform: uppercase; color: #fff; cursor: pointer;
-  background: linear-gradient(135deg, #0088cc, #29b6f6);
-  box-shadow: 0 0 35px rgba(0,136,204,.5), 0 0 80px rgba(0,136,204,.2), 0 16px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2);
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  overflow: hidden; position: relative; transition: transform .2s, box-shadow .2s;
-  animation: cta-pulse 2.2s ease-in-out infinite; text-decoration: none;
-}
-@keyframes cta-pulse {
-  50% { box-shadow: 0 0 55px rgba(0,136,204,.7), 0 0 110px rgba(0,136,204,.3), 0 16px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2); }
-}
-.cta:hover { transform: translateY(-3px) scale(1.02); animation: none; }
-.cta::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%);
-  transform: translateX(-120%) skewX(-15deg);
-  animation: shine 3s infinite 1s;
-}
-@keyframes shine { to { transform: translateX(220%) skewX(-15deg); } }
-.cta-icon { font-size: 22px; }
-.cta-text { line-height: 1; }
-.cta-arrow { font-size: 18px; opacity: .8; }
-.cta-trust { font-size: 11px; color: rgba(255,255,255,.3); font-weight: 500; }
-.cta-trust b { color: rgba(255,255,255,.5); }
-
-.disclaimer {
-  text-align: center; font-size: 10px; color: rgba(255,255,255,.2); line-height: 1.6; font-weight: 500;
-}
-.disclaimer strong { color: rgba(255,255,255,.35); }
-
-@media (max-width: 430px) {
-  .page { padding: 16px 16px 20px; gap: 12px; }
-  .hero-odd-word { font-size: 38px; }
-  .hero-odd-num { font-size: 66px; }
-  .subhead { font-size: 15px; }
-  .teams-row { padding: 10px 12px; gap: 8px; }
-  .team-logo { width: 52px; height: 52px; }
-  .team-logo img { width: 38px; height: 38px; }
-  .team-name { font-size: 11px; }
-  .odd-to-val { font-size: 38px; }
-  .cta { font-size: 15px; padding: 15px 16px; }
-}
-</style>
-</head>
-<body>
-<main class="page">
-
-  <div class="badge">ODD 100 &nbsp;·&nbsp; COPA DO MUNDO</div>
-
-  <div class="hero">
-    <div class="hero-odd">
-      <span class="hero-odd-word">ODD</span>
-      <span class="hero-odd-num">100</span>
-    </div>
-  </div>
-
-  <p class="subhead">
-    Odd 100 <span class="hl-green">exclusiva</span> nos jogos<br>
-    de <span class="hl-gold">Hoje</span>
-  </p>
-
-  <div class="carousel-wrap">
-    <div class="carousel-viewport">
-      <div class="carousel-track" id="track">
-        <!-- Jogo 1: Noruega vs França -->
-        <div class="match-card">
-          <div class="card-header">⚽ Copa do Mundo FIFA™</div>
-          <div class="teams-row">
-            <div class="team-side">
-              <div class="team-logo">🇳🇴</div>
-              <div class="team-name">Noruega</div>
-            </div>
-            <div class="vs-text">VS</div>
-            <div class="team-side">
-              <div class="team-logo">🇫🇷</div>
-              <div class="team-name">França</div>
-            </div>
-          </div>
-          <div class="comp-row">Fase de Grupos · Rodada 3 <span class="day-pill">16:00</span></div>
-          <div class="market-row">
-            <div class="market-label">Mercado</div>
-            <div class="market-name">🔒 Palpite exclusivo</div>
-          </div>
-          <div class="odds-row">
-            <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>
-            <div class="odd-arrow">»</div>
-            <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>
-          </div>
-        </div>
-
-        <!-- Jogo 2: Senegal vs Iraque -->
-        <div class="match-card">
-          <div class="card-header">⚽ Copa do Mundo FIFA™</div>
-          <div class="teams-row">
-            <div class="team-side">
-              <div class="team-logo">🇸🇳</div>
-              <div class="team-name">Senegal</div>
-            </div>
-            <div class="vs-text">VS</div>
-            <div class="team-side">
-              <div class="team-logo">🇮🇶</div>
-              <div class="team-name">Iraque</div>
-            </div>
-          </div>
-          <div class="comp-row">Fase de Grupos · Rodada 3 <span class="day-pill">16:00</span></div>
-          <div class="market-row">
-            <div class="market-label">Mercado</div>
-            <div class="market-name">🔒 Palpite exclusivo</div>
-          </div>
-          <div class="odds-row">
-            <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>
-            <div class="odd-arrow">»</div>
-            <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>
-          </div>
-        </div>
-
-        <!-- Jogo 3: Cabo Verde vs Arábia Saudita -->
-        <div class="match-card">
-          <div class="card-header">⚽ Copa do Mundo FIFA™</div>
-          <div class="teams-row">
-            <div class="team-side">
-              <div class="team-logo">🇨🇻</div>
-              <div class="team-name">Cabo Verde</div>
-            </div>
-            <div class="vs-text">VS</div>
-            <div class="team-side">
-              <div class="team-logo">🇸🇦</div>
-              <div class="team-name">Arábia Saudita</div>
-            </div>
-          </div>
-          <div class="comp-row">Fase de Grupos · Rodada 3 <span class="day-pill">21:00</span></div>
-          <div class="market-row">
-            <div class="market-label">Mercado</div>
-            <div class="market-name">🔒 Palpite exclusivo</div>
-          </div>
-          <div class="odds-row">
-            <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>
-            <div class="odd-arrow">»</div>
-            <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>
-          </div>
-        </div>
-
-        <!-- Jogo 4: Uruguai vs Espanha -->
-        <div class="match-card">
-          <div class="card-header">⚽ Copa do Mundo FIFA™</div>
-          <div class="teams-row">
-            <div class="team-side">
-              <div class="team-logo">🇺🇾</div>
-              <div class="team-name">Uruguai</div>
-            </div>
-            <div class="vs-text">VS</div>
-            <div class="team-side">
-              <div class="team-logo">🇪🇸</div>
-              <div class="team-name">Espanha</div>
-            </div>
-          </div>
-          <div class="comp-row">Fase de Grupos · Rodada 3 <span class="day-pill">21:00</span></div>
-          <div class="market-row">
-            <div class="market-label">Mercado</div>
-            <div class="market-name">🔒 Palpite exclusivo</div>
-          </div>
-          <div class="odds-row">
-            <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>
-            <div class="odd-arrow">»</div>
-            <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>
-          </div>
-        </div>
+    if (isTikTokBrowser()) {                                                                                                                                                                                
+      document.getElementById('tiktok-overlay').classList.add('show');
+    } else {                                                                                                                                                                                                
+      window.location.href = REDIRECT_URL;                                                                                                                                                                
+    }                                                                                                                                                                                                       
+  }
+                                                                                                                                                                                                            
+  function fecharOverlay() {                                                                                                                                                                              
+    document.getElementById('tiktok-overlay').classList.remove('show');
+  }
+  </script>                                                                                                                                                                                                 
+  <style>
+  *{ margin:0; padding:0; box-sizing:border-box; }                                                                                                                                                          
+  html, body {                                                                                                                                                                                            
+    font-family: 'Montserrat', sans-serif;                                                                                                                                                                  
+    color: #fff;
+    -webkit-tap-highlight-color: transparent;                                                                                                                                                               
+    min-height: 100%;                                                                                                                                                                                       
+    background: #000;
+    position: relative;                                                                                                                                                                                     
+  }                                                                                                                                                                                                         
+  body::after {
+    content: '';                                                                                                                                                                                            
+    position: fixed; inset: 0;                                                                                                                                                                            
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'
+   stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");                                                                                    
+    opacity: 0.035;
+    pointer-events: none;                                                                                                                                                                                   
+    z-index: -1;                                                                                                                                                                                            
+  }
+  .page {                                                                                                                                                                                                   
+    max-width: 480px;                                                                                                                                                                                     
+    margin: 0 auto;
+    padding: 32px 20px 40px;
+    display: flex;                                                                                                                                                                                          
+    flex-direction: column;
+    align-items: center;                                                                                                                                                                                    
+    gap: 20px;                                                                                                                                                                                            
+    min-height: 100vh;                                                                                                                                                                                      
+  }
+  .badge {                                                                                                                                                                                                  
+    background: linear-gradient(90deg, #c49a00, #f5c518, #c49a00);                                                                                                                                        
+    border-radius: 999px;                                                                                                                                                                                   
+    padding: 6px 20px;
+    font-size: 11px;                                                                                                                                                                                        
+    font-weight: 800;                                                                                                                                                                                       
+    letter-spacing: 2px;
+    text-transform: uppercase;                                                                                                                                                                              
+    color: #000;                                                                                                                                                                                          
+  }
+  .hero { text-align: center; line-height: 1; }
+  .hero-odd {                                                                                                                                                                                               
+    display: flex;
+    align-items: baseline;                                                                                                                                                                                  
+    justify-content: center;                                                                                                                                                                                
+    gap: 6px;
+  }                                                                                                                                                                                                         
+  .hero-odd-word {                                                                                                                                                                                        
+    font-size: 52px;
+    font-weight: 900;                                                                                                                                                                                       
+    color: #fff;
+    text-shadow: 0 0 30px rgba(255,255,255,.2);                                                                                                                                                             
+    font-style: italic;                                                                                                                                                                                     
+  }
+  .hero-odd-num {                                                                                                                                                                                           
+    font-size: 90px;                                                                                                                                                                                      
+    font-weight: 900;                                                                                                                                                                                       
+    color: #f5c518;
+    text-shadow: 0 0 30px rgba(245,197,24,.6), 0 0 80px rgba(245,197,24,.3);                                                                                                                                
+    font-style: italic;                                                                                                                                                                                     
+    line-height: 1;
+  }                                                                                                                                                                                                         
+  .subhead {                                                                                                                                                                                                
+    font-size: 18px;
+    font-weight: 800;                                                                                                                                                                                       
+    text-align: center;                                                                                                                                                                                   
+    line-height: 1.35;                                                                                                                                                                                      
+    letter-spacing: .5px;
+    text-transform: uppercase;                                                                                                                                                                              
+  }                                                                                                                                                                                                       
+  .subhead .hl-green { color: #4ade80; }
+  .subhead .hl-gold  { color: #f5c518; }                                                                                                                                                                    
+                                                                                                                                                                                                            
+  .carousel-wrap { width: 100%; }                                                                                                                                                                           
+  .carousel-viewport { width: 100%; overflow: hidden; border-radius: 16px; }                                                                                                                                
+  .carousel-track {                                                                                                                                                                                         
+    display: flex;
+    transition: transform 0.45s cubic-bezier(.4,0,.2,1);                                                                                                                                                    
+    will-change: transform;                                                                                                                                                                                 
+  }
+  .match-card {                                                                                                                                                                                             
+    min-width: 100%;                                                                                                                                                                                      
+    background: rgba(0,0,0,.55);                                                                                                                                                                            
+    border: 1.5px solid rgba(74,222,128,.35);
+    border-radius: 16px;                                                                                                                                                                                    
+    overflow: hidden;                                                                                                                                                                                     
+    box-shadow: 0 0 30px rgba(74,222,128,.1), 0 0 60px rgba(74,222,128,.05), inset 0 0 40px rgba(0,0,0,.3);                                                                                                 
+  }                                                                                                                                                                                                         
+  .card-header {                                                                                                                                                                                            
+    background: rgba(255,255,255,.05);                                                                                                                                                                      
+    border-bottom: 1px solid rgba(74,222,128,.2);                                                                                                                                                           
+    padding: 10px 16px;                                                                                                                                                                                     
+    display: flex;
+    align-items: center;                                                                                                                                                                                    
+    justify-content: center;                                                                                                                                                                              
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;                                                                                                                                                                                       
+    letter-spacing: 1px;
+  }                                                                                                                                                                                                         
+  .teams-row {                                                                                                                                                                                            
+    padding: 18px 20px;
+    display: flex;                                                                                                                                                                                          
+    align-items: center;
+    justify-content: center;                                                                                                                                                                                
+    gap: 16px;                                                                                                                                                                                            
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }                                                                                                                                                                                                         
+  .team-side {
+    display: flex;                                                                                                                                                                                          
+    flex-direction: column;                                                                                                                                                                               
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }                                                                                                                                                                                                         
+  .team-logo {
+    width: 64px; height: 64px;                                                                                                                                                                              
+    border-radius: 50%;                                                                                                                                                                                   
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);                                                                                                                                                                 
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;                                                                                                                                                                                       
+    font-size: 36px;                                                                                                                                                                                        
+  }
+  .team-logo img { width: 46px; height: 46px; object-fit: contain; }                                                                                                                                        
+  .team-name {                                                                                                                                                                                              
+    font-size: 12px;
+    font-weight: 800;                                                                                                                                                                                       
+    text-align: center;                                                                                                                                                                                   
+    letter-spacing: .5px;                                                                                                                                                                                   
+    text-transform: uppercase;
+    color: rgba(255,255,255,.85);                                                                                                                                                                           
+  }                                                                                                                                                                                                       
+  .vs-text {
+    font-size: 22px;
+    font-weight: 900;                                                                                                                                                                                       
+    color: rgba(255,255,255,.7);
+    letter-spacing: -1px;                                                                                                                                                                                   
+    flex-shrink: 0;                                                                                                                                                                                       
+  }                                                                                                                                                                                                         
+  .comp-row {
+    padding: 10px 16px;                                                                                                                                                                                     
+    display: flex;                                                                                                                                                                                        
+    align-items: center;                                                                                                                                                                                    
+    justify-content: center;
+    gap: 10px;                                                                                                                                                                                              
+    border-bottom: 1px solid rgba(255,255,255,.07);                                                                                                                                                       
+    font-size: 12px;
+    font-weight: 700;                                                                                                                                                                                       
+    letter-spacing: 1px;
+    text-transform: uppercase;                                                                                                                                                                              
+    color: rgba(255,255,255,.6);                                                                                                                                                                          
+  }
+  .day-pill {
+    background: #16a34a;
+    border-radius: 6px;                                                                                                                                                                                     
+    padding: 3px 10px;
+    font-size: 11px;                                                                                                                                                                                        
+    font-weight: 800;                                                                                                                                                                                     
+    color: #fff;
+  }                                                                                                                                                                                                         
+  .market-row {
+    padding: 12px 16px;                                                                                                                                                                                     
+    text-align: center;                                                                                                                                                                                   
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .market-label {                                                                                                                                                                                           
+    font-size: 10px;
+    font-weight: 700;                                                                                                                                                                                       
+    letter-spacing: 2px;                                                                                                                                                                                  
+    text-transform: uppercase;
+    color: #4ade80;
+    margin-bottom: 4px;                                                                                                                                                                                     
+  }
+  .market-name {                                                                                                                                                                                            
+    font-size: 15px;                                                                                                                                                                                      
+    font-weight: 800;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+  }                                                                                                                                                                                                         
+  .odds-row {
+    padding: 14px 20px;                                                                                                                                                                                     
+    display: flex;                                                                                                                                                                                        
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }                                                                                                                                                                                                         
+  .odd-from { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .odd-from-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.4); text-transform: uppercase; }                                                                     
+  .odd-from-val { font-size: 28px; font-weight: 900; color: rgba(255,80,80,.7); position: relative; }                                                                                                       
+  .odd-from-val::after {                                                                                                                                                                                    
+    content: ''; position: absolute; top: 50%; left: -4px; right: -4px;                                                                                                                                     
+    height: 2.5px; background: rgba(255,80,80,.8); transform: rotate(-8deg);                                                                                                                                
+  }                                                                                                                                                                                                         
+  .odd-arrow { font-size: 28px; color: #4ade80; font-weight: 900; animation: arrow-pulse 1.2s ease-in-out infinite; }                                                                                       
+  @keyframes arrow-pulse { 50% { transform: translateX(4px); opacity: .6; } }                                                                                                                               
+  .odd-to { display: flex; flex-direction: column; align-items: center; gap: 2px; }                                                                                                                         
+  .odd-to-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.4); text-transform: uppercase; }                                                                       
+  .odd-to-val {                                                                                                                                                                                             
+    font-size: 46px; font-weight: 900; color: #f5c518;                                                                                                                                                    
+    text-shadow: 0 0 20px rgba(245,197,24,.5); line-height: 1;                                                                                                                                              
+  }                                                                                                                                                                                                       
+                                                                                                                                                                                                            
+  .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 12px; }                                                                                                                  
+  .dot {                                                                                                                                                                                                    
+    width: 8px; height: 8px; border-radius: 50%;                                                                                                                                                          
+    background: rgba(255,255,255,.2); cursor: pointer;                                                                                                                                                      
+    transition: background .3s, transform .3s;
+  }                                                                                                                                                                                                         
+  .dot.active { background: #f5c518; transform: scale(1.3); }                                                                                                                                             
+                                                                                                                                                                                                            
+  .scarcity-box {                                                                                                                                                                                         
+    width: 100%;
+    background: rgba(245,197,24,.07);                                                                                                                                                                       
+    border: 1px solid rgba(245,197,24,.2);
+    border-radius: 12px;                                                                                                                                                                                    
+    padding: 12px 16px;                                                                                                                                                                                   
+    text-align: center;                                                                                                                                                                                     
+  }
+  .scarcity-title { font-size: 13px; font-weight: 800; color: #f5c518; letter-spacing: .5px; margin-bottom: 4px; }                                                                                          
+  .scarcity-sub { font-size: 12px; color: rgba(255,255,255,.55); font-weight: 600; }                                                                                                                        
+                                                                                                                                                                                                            
+  .cta-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 10px; }                                                                                                         
+  .cta {                                                                                                                                                                                                    
+    width: 100%; border: none; border-radius: 14px; padding: 20px 24px;                                                                                                                                     
+    font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 900;                                                                                                                               
+    letter-spacing: 1.5px; text-transform: uppercase; color: #fff; cursor: pointer;                                                                                                                         
+    background: linear-gradient(135deg, #0088cc, #29b6f6);                                                                                                                                                  
+    box-shadow: 0 0 35px rgba(0,136,204,.5), 0 0 80px rgba(0,136,204,.2), 0 16px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2);                                                                   
+    display: flex; align-items: center; justify-content: center; gap: 12px;                                                                                                                                 
+    overflow: hidden; position: relative; transition: transform .2s, box-shadow .2s;                                                                                                                        
+    animation: cta-pulse 2.2s ease-in-out infinite; text-decoration: none;                                                                                                                                  
+  }                                                                                                                                                                                                         
+  @keyframes cta-pulse {                                                                                                                                                                                    
+    50% { box-shadow: 0 0 55px rgba(0,136,204,.7), 0 0 110px rgba(0,136,204,.3), 0 16px 32px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.2); }                                                          
+  }                                                                                                                                                                                                         
+  .cta:hover { transform: translateY(-3px) scale(1.02); animation: none; }                                                                                                                                  
+  .cta::before {                                                                                                                                                                                            
+    content: ''; position: absolute; inset: 0;                                                                                                                                                              
+    background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%);                                                                                                       
+    transform: translateX(-120%) skewX(-15deg);                                                                                                                                                             
+    animation: shine 3s infinite 1s;                                                                                                                                                                        
+  }                                                                                                                                                                                                         
+  @keyframes shine { to { transform: translateX(220%) skewX(-15deg); } }                                                                                                                                  
+  .cta-icon { font-size: 22px; }                                                                                                                                                                            
+  .cta-text { line-height: 1; }                                                                                                                                                                             
+  .cta-arrow { font-size: 18px; opacity: .8; }
+  .cta-trust { font-size: 11px; color: rgba(255,255,255,.3); font-weight: 500; }                                                                                                                            
+  .cta-trust b { color: rgba(255,255,255,.5); }                                                                                                                                                             
+                                                                                                                                                                                                            
+  .disclaimer {                                                                                                                                                                                             
+    text-align: center; font-size: 10px; color: rgba(255,255,255,.2); line-height: 1.6; font-weight: 500;                                                                                                 
+  }                                                                                                                                                                                                         
+  .disclaimer strong { color: rgba(255,255,255,.35); }
+                                                                                                                                                                                                            
+  /* ===================== TIKTOK OVERLAY ===================== */                                                                                                                                          
+  #tiktok-overlay {
+    display: none;                                                                                                                                                                                          
+    position: fixed;                                                                                                                                                                                      
+    inset: 0;
+    z-index: 9999;                                                                                                                                                                                          
+    background: rgba(0,0,0,.92);
+    backdrop-filter: blur(6px);                                                                                                                                                                             
+    -webkit-backdrop-filter: blur(6px);                                                                                                                                                                   
+    flex-direction: column;                                                                                                                                                                                 
+    align-items: center;
+    justify-content: flex-start;                                                                                                                                                                            
+    padding: 0;                                                                                                                                                                                           
+  }
+  #tiktok-overlay.show { display: flex; }                                                                                                                                                                   
+  .tt-arrow-wrap {
+    width: 100%;                                                                                                                                                                                            
+    display: flex;                                                                                                                                                                                          
+    justify-content: flex-end;
+    padding: 18px 22px 0;                                                                                                                                                                                   
+  }                                                                                                                                                                                                         
+  .tt-arrow-svg { animation: tt-bounce 1s ease-in-out infinite alternate; }
+  @keyframes tt-bounce {                                                                                                                                                                                    
+    from { transform: translate(0, 0); }                                                                                                                                                                  
+    to   { transform: translate(6px, -8px); }                                                                                                                                                               
+  }                                                                                                                                                                                                         
+  .tt-card {
+    margin-top: 28px;                                                                                                                                                                                       
+    width: calc(100% - 40px);                                                                                                                                                                             
+    max-width: 360px;                                                                                                                                                                                       
+    background: #111;
+    border: 1px solid rgba(255,255,255,.1);                                                                                                                                                                 
+    border-radius: 20px;                                                                                                                                                                                    
+    padding: 28px 22px 22px;
+    display: flex;                                                                                                                                                                                          
+    flex-direction: column;                                                                                                                                                                               
+    align-items: center;                                                                                                                                                                                    
+    gap: 20px;                                                                                                                                                                                            
+  }
+  .tt-title { font-size: 16px; font-weight: 900; text-align: center; letter-spacing: .5px; line-height: 1.4; color: #fff; }
+  .tt-steps { width: 100%; display: flex; flex-direction: column; gap: 14px; }                                                                                                                              
+  .tt-step { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,.04); border-radius: 12px; padding: 12px 14px; }                                                                   
+  .tt-step-num { width: 30px; height: 30px; border-radius: 50%; background: #f5c518; color: #000; font-size: 14px; font-weight: 900; display: flex; align-items: center; justify-content: center;           
+  flex-shrink: 0; }                                                                                                                                                                                         
+  .tt-step-text { font-size: 13px; font-weight: 700; line-height: 1.4; color: rgba(255,255,255,.85); }                                                                                                      
+  .tt-step-text span { color: #4ade80; }                                                                                                                                                                    
+  .tt-mockup { width: 100%; background: #1a1a1a; border-radius: 14px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); }                                                                        
+  .tt-mockup-bar { background: #222; padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.06); }                              
+  .tt-mockup-bar-dots { display: flex; gap: 5px; }                                                                                                                                                          
+  .tt-mockup-bar-dots span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.15); }                                                                                              
+  .tt-mockup-bar-dots span.active { background: #f5c518; box-shadow: 0 0 6px #f5c518; }                                                                                                                     
+  .tt-mockup-url { font-size: 10px; color: rgba(255,255,255,.3); font-weight: 600; }                                                                                                                        
+  .tt-mockup-menu { padding: 0; }                                                                                                                                                                           
+  .tt-mockup-item { display: flex; align-items: center; gap: 12px; padding: 13px 16px; border-bottom: 1px solid rgba(255,255,255,.05); font-size: 13px; font-weight: 700; color: rgba(255,255,255,.5); }    
+  .tt-mockup-item.highlighted { background: rgba(74,222,128,.08); color: #4ade80; animation: item-pulse 1.5s ease-in-out infinite; }                                                                        
+  @keyframes item-pulse { 50% { background: rgba(74,222,128,.14); } }                                                                                                                                       
+  .tt-mockup-item-icon { font-size: 18px; width: 24px; text-align: center; }                                                                                                                                
+  .tt-close { font-size: 12px; color: rgba(255,255,255,.25); font-weight: 600; cursor: pointer; padding: 4px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,.1); }                            
+  /* ===================== FIM OVERLAY ===================== */                                                                                                                                             
+                                                                                                                                                                                                            
+  @media (max-width: 430px) {                                                                                                                                                                               
+    .page { padding: 16px 16px 20px; gap: 12px; }                                                                                                                                                         
+    .hero-odd-word { font-size: 38px; }                                                                                                                                                                     
+    .hero-odd-num { font-size: 66px; }                                                                                                                                                                      
+    .subhead { font-size: 15px; }                                                                                                                                                                           
+    .teams-row { padding: 10px 12px; gap: 8px; }                                                                                                                                                            
+    .team-logo { width: 52px; height: 52px; }                                                                                                                                                               
+    .team-logo img { width: 38px; height: 38px; }
+    .team-name { font-size: 11px; }                                                                                                                                                                         
+    .odd-to-val { font-size: 38px; }                                                                                                                                                                      
+    .cta { font-size: 15px; padding: 15px 16px; }                                                                                                                                                           
+  }                                                                                                                                                                                                         
+  </style>
+  </head>                                                                                                                                                                                                   
+  <body>                                                                                                                                                                                                    
+   
+  <!-- ========== OVERLAY TIKTOK ========== -->                                                                                                                                                             
+  <div id="tiktok-overlay">                                                                                                                                                                               
+    <div class="tt-arrow-wrap">                                                                                                                                                                             
+      <svg class="tt-arrow-svg" width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M 70 75 Q 80 40 75 12" stroke="#f5c518" stroke-width="3.5" stroke-linecap="round" fill="none"/>                                                                                            
+        <polyline points="62,16 75,10 80,24" stroke="#f5c518" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>                                                               
+      </svg>                                                                                                                                                                                                
+    </div>                                                                                                                                                                                                  
+    <div class="tt-card">                                                                                                                                                                                   
+      <div class="tt-title">Para abrir no navegador,<br>siga estes passos:</div>                                                                                                                          
+      <div class="tt-steps">                                                                                                                                                                                
+        <div class="tt-step">                                                                                                                                                                             
+          <div class="tt-step-num">1</div>                                                                                                                                                                  
+          <div class="tt-step-text">Toque nos <span>3 pontinhos ···</span> no canto superior direito</div>                                                                                                
+        </div>                                                                                                                                                                                              
+        <div class="tt-step">
+          <div class="tt-step-num">2</div>                                                                                                                                                                  
+          <div class="tt-step-text">Selecione <span>"Abrir no navegador"</span></div>                                                                                                                     
+        </div>                                                                                                                                                                                              
+        <div class="tt-step">
+          <div class="tt-step-num">3</div>                                                                                                                                                                  
+          <div class="tt-step-text">Clique em <span>Receber no Telegram</span> novamente ✅</div>                                                                                                         
+        </div>                                                                                                                                                                                              
       </div>
-    </div>
-    <div class="carousel-dots" id="dots"></div>
-  </div>
+      <div class="tt-mockup">                                                                                                                                                                               
+        <div class="tt-mockup-bar">                                                                                                                                                                         
+          <div class="tt-mockup-bar-dots"><span></span><span></span><span class="active"></span></div>
+          <div class="tt-mockup-url">odd100.com</div>                                                                                                                                                       
+        </div>                                                                                                                                                                                            
+        <div class="tt-mockup-menu">                                                                                                                                                                        
+          <div class="tt-mockup-item"><span class="tt-mockup-item-icon">🔗</span> Copiar link</div>                                                                                                       
+          <div class="tt-mockup-item highlighted"><span class="tt-mockup-item-icon">🌐</span> Abrir no navegador</div>                                                                                      
+          <div class="tt-mockup-item"><span class="tt-mockup-item-icon">↗️ </span> Compartilhar</div>                                                                                                        
+        </div>                                                                                                                                                                                              
+      </div>                                                                                                                                                                                                
+      <div class="tt-close" onclick="fecharOverlay()">Fechar</div>                                                                                                                                          
+    </div>                                                                                                                                                                                                
+  </div>                                                                                                                                                                                                    
+  <!-- ========== FIM OVERLAY ========== -->
+                                                                                                                                                                                                            
+  <main class="page">                                                                                                                                                                                     
+    <div class="badge">ODD 100 &nbsp;·&nbsp; COPA DO MUNDO</div>
+    <div class="hero">                                                                                                                                                                                      
+      <div class="hero-odd">
+        <span class="hero-odd-word">ODD</span>                                                                                                                                                              
+        <span class="hero-odd-num">100</span>                                                                                                                                                               
+      </div>
+    </div>                                                                                                                                                                                                  
+    <p class="subhead">                                                                                                                                                                                   
+      Odd 100 <span class="hl-green">exclusiva</span> nos jogos<br>                                                                                                                                         
+      de <span class="hl-gold">Hoje</span>                                                                                                                                                                  
+    </p>                                                                                                                                                                                                    
+                                                                                                                                                                                                            
+    <div class="carousel-wrap">                                                                                                                                                                           
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="track">                                                                                                                                                             
+          <div class="match-card">
+            <div class="card-header">⚽ Copa do Mundo FIFA™</div>                                                                                                                                           
+            <div class="teams-row">                                                                                                                                                                         
+              <div class="team-side"><div class="team-logo">🇨🇿</div><div class="team-name">Tchéquia</div></div>
+              <div class="vs-text">VS</div>                                                                                                                                                                 
+              <div class="team-side"><div class="team-logo">🇿🇦</div><div class="team-name">África do Sul</div></div>                                                                                      
+            </div>                                                                                                                                                                                          
+            <div class="comp-row">Copa do Mundo · Fase de Grupos <span class="day-pill">Hoje 13:00</span></div>                                                                                           
+            <div class="market-row"><div class="market-label">Mercado</div><div class="market-name">🔒 Palpite exclusivo</div></div>                                                                        
+            <div class="odds-row">                                                                                                                                                                          
+              <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>                                                                                          
+              <div class="odd-arrow">»</div>                                                                                                                                                                
+              <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>                                                                                               
+            </div>                                                                                                                                                                                          
+          </div>                                                                                                                                                                                          
+          <div class="match-card">                                                                                                                                                                          
+            <div class="card-header">⚽ Copa do Mundo FIFA™</div>                                                                                                                                         
+            <div class="teams-row">                                                                                                                                                                         
+              <div class="team-side"><div class="team-logo">🇨🇭</div><div class="team-name">Suíça</div></div>
+              <div class="vs-text">VS</div>                                                                                                                                                                 
+              <div class="team-side"><div class="team-logo">🇧🇦</div><div class="team-name">Bósnia & Herzegovina</div></div>                                                                                 
+            </div>                                                                                                                                                                                          
+            <div class="comp-row">Copa do Mundo · Fase de Grupos <span class="day-pill">Hoje 16:00</span></div>                                                                                             
+            <div class="market-row"><div class="market-label">Mercado</div><div class="market-name">🔒 Palpite exclusivo</div></div>                                                                        
+            <div class="odds-row">                                                                                                                                                                        
+              <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>                                                                                          
+              <div class="odd-arrow">»</div>                                                                                                                                                                
+              <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>
+            </div>                                                                                                                                                                                          
+          </div>                                                                                                                                                                                          
+          <div class="match-card">                                                                                                                                                                          
+            <div class="card-header">⚽ Copa do Mundo FIFA™</div>                                                                                                                                         
+            <div class="teams-row">                                                                                                                                                                         
+              <div class="team-side"><div class="team-logo">🇨🇦</div><div class="team-name">Canadá</div></div>
+              <div class="vs-text">VS</div>                                                                                                                                                                 
+              <div class="team-side"><div class="team-logo">🇶🇦</div><div class="team-name">Qatar</div></div>                                                                                              
+            </div>                                                                                                                                                                                          
+            <div class="comp-row">Copa do Mundo · Fase de Grupos <span class="day-pill">Hoje 19:00</span></div>                                                                                           
+            <div class="market-row"><div class="market-label">Mercado</div><div class="market-name">🔒 Palpite exclusivo</div></div>                                                                        
+            <div class="odds-row">                                                                                                                                                                          
+              <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>
+              <div class="odd-arrow">»</div>                                                                                                                                                                
+              <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>                                                                                             
+            </div>                                                                                                                                                                                          
+          </div>                                                                                                                                                                                          
+          <div class="match-card">                                                                                                                                                                          
+            <div class="card-header">⚽ Copa do Mundo FIFA™</div>                                                                                                                                         
+            <div class="teams-row">
+              <div class="team-side"><div class="team-logo">🇲🇽</div><div class="team-name">México</div></div>                                                                                               
+              <div class="vs-text">VS</div>
+              <div class="team-side"><div class="team-logo">🇰🇷</div><div class="team-name">República da Coreia</div></div>                                                                                  
+            </div>                                                                                                                                                                                          
+            <div class="comp-row">Copa do Mundo · Fase de Grupos <span class="day-pill" style="background:#e53935;">Hoje 22:00</span></div>
+            <div class="market-row"><div class="market-label">Mercado</div><div class="market-name">🔒 Palpite exclusivo</div></div>                                                                        
+            <div class="odds-row">                                                                                                                                                                        
+              <div class="odd-from"><div class="odd-from-label">De</div><div class="odd-from-val">1.78</div></div>                                                                                          
+              <div class="odd-arrow">»</div>                                                                                                                                                                
+              <div class="odd-to"><div class="odd-to-label">Para</div><div class="odd-to-val">100</div></div>
+            </div>                                                                                                                                                                                          
+          </div>                                                                                                                                                                                          
+        </div>                                                                                                                                                                                              
+      </div>                                                                                                                                                                                              
+      <div class="carousel-dots" id="dots"></div>
+    </div>                                                                                                                                                                                                  
+   
+    <div class="scarcity-box">                                                                                                                                                                              
+      <div class="scarcity-title">⏰ OFERTA POR TEMPO LIMITADO!</div>                                                                                                                                     
+      <div class="scarcity-sub">Acesse agora sua Odd 100 antes que esgote.</div>                                                                                                                            
+    </div>                                                                                                                                                                                                  
+                                                                                                                                                                                                            
+    <div class="cta-wrap">                                                                                                                                                                                  
+      <a href="#" class="cta" data-trackpanel onclick="dispararLead(event)">                                                                                                                              
+        <span class="cta-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68                      
+  7.92c-.12.56-.46.7-.92.43l-2.56-1.88-1.24 1.19c-.14.14-.26.26-.52.26l.18-2.62 4.74-4.28c.2-.18-.04-.28-.32-.1L7.38 14.4l-2.52-.79c-.54-.17-.55-.54.12-.8l9.84-3.8c.46-.16.86.11.82.79z"/></svg></span>    
+        <span class="cta-text">RECEBER NO TELEGRAM</span>                                                                                                                                                   
+        <span class="cta-arrow">›</span>                                                                                                                                                                    
+      </a>                                                                                                                                                                                                  
+      <p class="cta-trust">Acesso gratuito &nbsp;·&nbsp; <b>Direto no Telegram</b></p>
+    </div>                                                                                                                                                                                                  
+                                                                                                                                                                                                          
+    <div class="disclaimer">                                                                                                                                                                                
+      <strong>+18 · Jogue com responsabilidade.</strong><br>                                                                                                                                              
+      Apostas envolvem risco de perda. Jogar pode causar dependência.                                                                                                                                       
+    </div>                                                                                                                                                                                                  
+  </main>                                                                                                                                                                                                   
+                                                                                                                                                                                                            
+  <script>                                                                                                                                                                                                
+  const track = document.getElementById('track');
+  const dotsEl = document.getElementById('dots');                                                                                                                                                           
+  const total = track.children.length;
+  let current = 0;                                                                                                                                                                                          
+  let autoTimer;                                                                                                                                                                                          
+                                                                                                                                                                                                            
+  for (let i = 0; i < total; i++) {                                                                                                                                                                       
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');                                                                                                                                                       
+    d.addEventListener('click', () => goTo(i));
+    dotsEl.appendChild(d);                                                                                                                                                                                  
+  }                                                                                                                                                                                                       
+                                                                                                                                                                                                            
+  function goTo(idx) {                                                                                                                                                                                    
+    current = (idx + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));                                                                                                       
+    resetAuto();                                                                                                                                                                                            
+  }                                                                                                                                                                                                         
+                                                                                                                                                                                                            
+  function next() { goTo(current + 1); }                                                                                                                                                                  
 
-  <div class="scarcity-box">
-    <div class="scarcity-title">⏰ OFERTA POR TEMPO LIMITADO!</div>
-    <div class="scarcity-sub">Garanta agora sua Odd 100 antes que esgote.</div>
-  </div>
+  function resetAuto() {                                                                                                                                                                                    
+    clearInterval(autoTimer);
+    autoTimer = setInterval(next, 3500);                                                                                                                                                                    
+  }                                                                                                                                                                                                       
 
-  <div class="cta-wrap">
-    <a href="https://smartico-dash.up.railway.app/track/b215d5e4-a406-450d-bc5f-f9687470105e/redirect?utm_campaign=bateu" class="cta" onclick="dispararLead(event)">
-      <span class="cta-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.56-.46.7-.92.43l-2.56-1.88-1.24 1.19c-.14.14-.26.26-.52.26l.18-2.62 4.74-4.28c.2-.18-.04-.28-.32-.1L7.38 14.4l-2.52-.79c-.54-.17-.55-.54.12-.8l9.84-3.8c.46-.16.86.11.82.79z"/></svg></span>
-      <span class="cta-text">RECEBER NO TELEGRAM</span>
-      <span class="cta-arrow">›</span>
-    </a>
-    <p class="cta-trust">Acesso gratuito &nbsp;·&nbsp; <b>Direto no Telegram</b></p>
-  </div>
-
-  <div class="disclaimer">
-    <strong>+18 · Jogue com responsabilidade.</strong><br>
-    Apostas envolvem risco de perda. Jogar pode causar dependência.
-  </div>
-
-</main>
-
-<script>
-const track = document.getElementById('track');
-const dotsEl = document.getElementById('dots');
-const total = track.children.length;
-let current = 0;
-let autoTimer;
-
-for (let i = 0; i < total; i++) {
-  const d = document.createElement('div');
-  d.className = 'dot' + (i === 0 ? ' active' : '');
-  d.addEventListener('click', () => goTo(i));
-  dotsEl.appendChild(d);
-}
-
-function goTo(idx) {
-  current = (idx + total) % total;
-  track.style.transform = `translateX(-${current * 100}%)`;
-  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
   resetAuto();
-}
 
-function next() { goTo(current + 1); }
-
-function resetAuto() {
-  clearInterval(autoTimer);
-  autoTimer = setInterval(next, 3500);
-}
-
-resetAuto();
-
-let startX = 0;
-track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
-track.addEventListener('touchend', e => {
-  const diff = startX - e.changedTouches[0].clientX;
-  if (Math.abs(diff) > 40) diff > 0 ? next() : goTo(current - 1);
-});
-</script>
-</body>
-</html>
+  let startX = 0;                                                                                                                                                                                           
+  track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {                                                                                                                                                                 
+    const diff = startX - e.changedTouches[0].clientX;                                                                                                                                                    
+    if (Math.abs(diff) > 40) diff > 0 ? next() : goTo(current - 1);                                                                                                                                         
+  });                                                                                                                                                                                                       
+  </script>
+  </body>                                                                                                                                                                                                   
+  </html>
