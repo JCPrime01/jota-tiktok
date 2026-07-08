@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Odd 100 — COPA DO MUNDO</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
+<link ="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;0,900;1,900&display=swap" rel="stylesheet">
 <script>
 (function(){
   var B="https://track.grupojc.cc/track/b215d5e4-a406-450d-bc5f-f9687470105e";
@@ -22,7 +22,7 @@
     fetch(B,{
       method:"POST",
       headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({event_type:type,session_id:sid,url:location.href,metadata:Object.assign({},getUtms(),meta||{})}),
+      body:JSON.stringify({event_type:type,session_id:sid,url:location.,metadata:Object.assign({},getUtms(),meta||{})}),
       keepalive:true
     }).catch(function(){});
   }
@@ -30,7 +30,7 @@
   function wireButtons(){
     document.querySelectorAll("[data-trackpanel]").forEach(function(el){
       var q=new URLSearchParams(getUtms()).toString();
-      el.href=R+(q?"?"+q:"");
+      el.=R+(q?"?"+q:"");
       el.addEventListener("click",function(){
       },true);
     });
@@ -48,7 +48,7 @@
         return;
       }
       if(el.tagName==="BUTTON"||el.tagName==="A"){
-        track("click",{tag:el.tagName,text:el.innerText||"",href:el.href||""});
+        track("click",{tag:el.tagName,text:el.innerText||"",:el.||""});
         return;
       }
       el=el.parentElement;
@@ -117,7 +117,7 @@ async function dispararLead(e) {
   if (isTikTokBrowser()) {
     document.getElementById('tiktok-overlay').classList.add('show');
   } else {
-    window.location.href = REDIRECT_URL;
+    window.location. = REDIRECT_URL;
   }
 }
 
@@ -746,7 +746,7 @@ body::after {
   </div>
 
   <div class="cta-wrap">
-    <a href="#" class="cta" data-trackpanel onclick="dispararLead(event)">
+    <a ="#" class="cta" data-trackpanel onclick="dispararLead(event)">
       <span class="cta-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8l-1.68 7.92c-.12.56-.46.7-.92.43l-2.56-1.88-1.24 1.19c-.14.14-.26.26-.52.26l.18-2.62 4.74-4.28c.2-.18-.04-.28-.32-.1L7.38 14.4l-2.52-.79c-.54-.17-.55-.54.12-.8l9.84-3.8c.46-.16.86.11.82.79z"/></svg></span>
       <span class="cta-text">RECEBER NO TELEGRAM</span>
       <span class="cta-arrow">›</span>
