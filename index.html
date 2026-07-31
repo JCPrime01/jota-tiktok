@@ -768,6 +768,10 @@ track.addEventListener('touchend', e => {
       <span style="font-size:36px;animation:bounce-arrow 1s infinite alternate;">↗️</span>
       <span style="color:#fe2c55;font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;">TOQUE AQUI</span>
     </div>
+
+    <button onclick="fecharOverlay()" style="margin-top:10px;background:transparent;border:1px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.5);font-family:Montserrat,sans-serif;font-size:12px;padding:8px 20px;border-radius:20px;cursor:pointer;">
+      Já estou no navegador externo ✓
+    </button>
   </div>
 </div>
 
@@ -781,12 +785,18 @@ track.addEventListener('touchend', e => {
 <script>
 (function(){
   var ua = navigator.userAgent || '';
-  var isTikTok = /musical_ly|tiktok|BytedanceWebview|ByteLocale/i.test(ua);
-  if (isTikTok) {
+  var isMobile = /Android|iPhone|iPad|iPod/i.test(ua);
+  var isStandaloneBrowser = /Chrome|Safari|Firefox|SamsungBrowser/i.test(ua) && !/musical_ly|tiktok|BytedanceWebview|FBAN|FBAV|Instagram/i.test(ua);
+  if (isMobile && !isStandaloneBrowser) {
     var el = document.getElementById('tiktok-overlay');
     if (el) el.style.display = 'flex';
   }
 })();
+
+function fecharOverlay() {
+  var el = document.getElementById('tiktok-overlay');
+  if (el) el.style.display = 'none';
+}
 </script>
 </body>
 </html>
