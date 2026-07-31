@@ -740,5 +740,53 @@ track.addEventListener('touchend', e => {
   if (Math.abs(diff) > 40) diff > 0 ? next() : goTo(current - 1);
 });
 </script>
+
+<!-- TikTok browser overlay -->
+<div id="tiktok-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.92);flex-direction:column;align-items:center;justify-content:center;padding:30px;text-align:center;">
+  <div style="max-width:320px;">
+    <div style="font-size:48px;margin-bottom:16px;">📱</div>
+    <h2 style="color:#fff;font-family:Montserrat,sans-serif;font-size:22px;font-weight:900;margin-bottom:12px;line-height:1.2;">Abra no navegador para continuar</h2>
+    <p style="color:#ccc;font-family:Montserrat,sans-serif;font-size:15px;margin-bottom:32px;line-height:1.5;">O TikTok bloqueia alguns conteúdos. Siga os passos abaixo:</p>
+
+    <div style="background:rgba(255,255,255,0.08);border-radius:16px;padding:20px;margin-bottom:20px;">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+        <div style="width:36px;height:36px;background:#fe2c55;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:900;color:#fff;font-size:16px;">1</div>
+        <p style="color:#fff;font-family:Montserrat,sans-serif;font-size:14px;text-align:left;margin:0;">Toque nos <strong>3 pontinhos ···</strong> no canto superior direito da tela</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px;">
+        <div style="width:36px;height:36px;background:#fe2c55;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:900;color:#fff;font-size:16px;">2</div>
+        <p style="color:#fff;font-family:Montserrat,sans-serif;font-size:14px;text-align:left;margin:0;">Selecione <strong>"Abrir no navegador"</strong></p>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div style="width:36px;height:36px;background:#fe2c55;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:900;color:#fff;font-size:16px;">3</div>
+        <p style="color:#fff;font-family:Montserrat,sans-serif;font-size:14px;text-align:left;margin:0;">Pronto! Você terá acesso completo ao conteúdo</p>
+      </div>
+    </div>
+
+    <!-- Seta apontando pro canto superior direito -->
+    <div style="position:fixed;top:20px;right:20px;display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+      <span style="font-size:36px;animation:bounce-arrow 1s infinite alternate;">↗️</span>
+      <span style="color:#fe2c55;font-family:Montserrat,sans-serif;font-size:12px;font-weight:700;">TOQUE AQUI</span>
+    </div>
+  </div>
+</div>
+
+<style>
+@keyframes bounce-arrow {
+  from { transform: translateY(0); }
+  to { transform: translateY(-8px); }
+}
+</style>
+
+<script>
+(function(){
+  var ua = navigator.userAgent || '';
+  var isTikTok = /musical_ly|tiktok|BytedanceWebview|ByteLocale/i.test(ua);
+  if (isTikTok) {
+    var el = document.getElementById('tiktok-overlay');
+    if (el) el.style.display = 'flex';
+  }
+})();
+</script>
 </body>
 </html>
