@@ -2,283 +2,137 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Grupo JC — Dicas Esportivas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Acesso Liberado — Grupo de Palpites</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#0a0a0b;
-    --surface:#111113;
-    --border:#1e1e22;
+    --bg-soft:#131315;
     --red:#e01e2b;
-    --red-deep:#a01018;
-    --gold:#f5c518;
-    --text:#f0f0f0;
-    --muted:#888;
+    --red-deep:#8f0f19;
+    --red-glow:rgba(224,30,43,.45);
+    --ink:#f5f3ef;
+    --ink-dim:#a8a5a0;
+    --olive:#c9c29d;
+    --line:rgba(245,243,239,.10);
   }
-  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{
-    background:var(--bg);
-    color:var(--text);
-    font-family:'Inter',sans-serif;
-    min-height:100vh;
-    overflow-x:hidden;
-  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden;}
+  body{min-height:100vh; display:flex; flex-direction:column; align-items:center; position:relative;}
 
-  /* ── HERO ── */
-  .hero{
-    position:relative;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    padding:40px 20px 60px;
-    text-align:center;
+  /* ambient grain / glow */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
     background:
-      radial-gradient(ellipse 80% 60% at 50% 0%,rgba(224,30,43,.18) 0%,transparent 70%),
-      var(--bg);
+      radial-gradient(600px 400px at 50% -10%, var(--red-glow), transparent 60%),
+      radial-gradient(500px 500px at 100% 100%, rgba(224,30,43,.12), transparent 60%);
+    pointer-events:none; z-index:0;
   }
-  .hero::before{
-    content:'';
-    position:absolute;
-    inset:0;
-    background:url('https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=1200&q=80') center/cover no-repeat;
-    opacity:.07;
-    z-index:0;
-  }
-  .hero>*{position:relative;z-index:1}
 
-  /* badge row */
-  .badges{
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    justify-content:center;
-    margin-bottom:24px;
+  .wrap{ width:100%; max-width:460px; padding:0 22px 40px; position:relative; z-index:1; }
+
+  /* eyebrow ticker */
+  .eyebrow{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    margin:22px 0 18px;
+    font-size:11.5px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--olive); font-weight:600;
+  }
+  .eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--red); box-shadow:0 0 10px var(--red-glow); animation:pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse{ 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.4; transform:scale(.7);} }
+
+  /* hero photo */
+  .hero{ position:relative; width:min(78vw,300px); margin:6px auto 22px; }
+  .hero-ring{
+    position:relative; width:100%; aspect-ratio:1/1; border-radius:50%;
+    padding:5px;
+    background:conic-gradient(from 180deg, var(--red), var(--red-deep), var(--red));
+    box-shadow:0 0 0 1px var(--line), 0 25px 60px -20px rgba(224,30,43,.55);
+  }
+  .hero-ring img{
+    width:100%; height:100%; object-fit:cover; border-radius:50%;
+    display:block; background:var(--bg-soft);
+    border:3px solid var(--bg);
   }
   .badge{
-    background:rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.12);
-    border-radius:999px;
-    padding:6px 14px;
-    font-size:.72rem;
-    font-weight:600;
-    letter-spacing:.04em;
-    text-transform:uppercase;
-    color:var(--gold);
+    position:absolute; width:58px; height:58px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ff5a63, var(--red) 55%, var(--red-deep) 100%);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 10px 24px -6px rgba(224,30,43,.65), 0 0 0 4px var(--bg);
   }
+  .badge svg{ width:26px; height:26px; }
+  .badge.b1{ top:-6px; left:-14px; transform:rotate(-8deg); }
+  .badge.b2{ bottom:6px; right:-16px; transform:rotate(8deg); }
 
   /* headline */
   .headline{
     font-family:'Anton',sans-serif;
-    font-size:clamp(2.4rem,8vw,4.8rem);
-    line-height:1.05;
+    font-weight:400;
+    font-size:clamp(34px,10vw,44px);
+    line-height:0.98;
+    text-align:center;
     letter-spacing:.01em;
-    margin-bottom:16px;
-    text-transform:uppercase;
+    color:var(--ink);
+    text-shadow:0 0 30px rgba(224,30,43,.35);
+    margin-bottom:6px;
   }
-  .headline span{color:var(--red)}
+  .headline span{ color:var(--red); }
 
-  .sub{
-    font-size:clamp(.95rem,2.5vw,1.15rem);
-    color:#bbb;
-    max-width:520px;
-    margin:0 auto 32px;
-    line-height:1.6;
+  .subhead{
+    text-align:center; font-size:15.5px; font-weight:600;
+    color:var(--olive); letter-spacing:.01em;
+    max-width:340px; margin:0 auto 26px;
+    line-height:1.4;
   }
-
-  /* photo */
-  .photo-wrap{
-    position:relative;
-    width:clamp(160px,45vw,220px);
-    height:clamp(160px,45vw,220px);
-    margin:0 auto 28px;
-  }
-  .photo-wrap::before{
-    content:'';
-    position:absolute;
-    inset:-4px;
-    border-radius:50%;
-    background:conic-gradient(var(--red),var(--gold),var(--red));
-    animation:spin 4s linear infinite;
-    z-index:0;
-  }
-  .photo-wrap::after{
-    content:'';
-    position:absolute;
-    inset:-2px;
-    border-radius:50%;
-    background:var(--bg);
-    z-index:1;
-  }
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .photo{
-    position:relative;
-    z-index:2;
-    width:100%;
-    height:100%;
-    border-radius:50%;
-    object-fit:cover;
-    background:#1a1a1e;
-  }
-  .photo-initials{
-    position:absolute;
-    inset:0;
-    z-index:2;
-    border-radius:50%;
-    background:linear-gradient(135deg,#1a1a1e,#2a2a30);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:'Anton',sans-serif;
-    font-size:3.5rem;
-    color:var(--red);
-    letter-spacing:.05em;
-  }
-
-  /* CTA button — glass morphism */
-  .cta{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    padding:18px 40px;
-    border-radius:14px;
-    font-family:'Anton',sans-serif;
-    font-size:1.25rem;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    text-decoration:none;
-    color:#fff;
-    cursor:pointer;
-    border:none;
-    outline:none;
-    position:relative;
-    overflow:hidden;
-
-    /* glass morphism */
-    background:rgba(224,30,43,0.75);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,0.2);
-    box-shadow:
-      0 4px 32px rgba(224,30,43,0.45),
-      0 1px 0 rgba(255,255,255,0.15) inset,
-      0 -1px 0 rgba(0,0,0,0.3) inset;
-
-    animation:breathe 2.4s ease-in-out infinite;
-    transition:transform .15s,box-shadow .15s;
-  }
-  .cta:hover{
-    transform:translateY(-2px);
-    box-shadow:
-      0 8px 40px rgba(224,30,43,0.65),
-      0 1px 0 rgba(255,255,255,0.2) inset,
-      0 -1px 0 rgba(0,0,0,0.3) inset;
-  }
-  .cta:active{transform:translateY(0)}
-  @keyframes breathe{
-    0%,100%{box-shadow:0 4px 32px rgba(224,30,43,.45),0 1px 0 rgba(255,255,255,.15) inset,0 -1px 0 rgba(0,0,0,.3) inset}
-    50%{box-shadow:0 6px 48px rgba(224,30,43,.75),0 1px 0 rgba(255,255,255,.2) inset,0 -1px 0 rgba(0,0,0,.3) inset}
-  }
-  .cta-icon{font-size:1.4rem}
 
   /* proof strip */
   .proof{
-    margin-top:36px;
-    display:flex;
-    gap:28px;
-    flex-wrap:wrap;
-    justify-content:center;
+    display:flex; align-items:center; justify-content:center; gap:18px;
+    padding:14px 16px; margin-bottom:22px;
+    background:var(--bg-soft); border:1px solid var(--line); border-radius:14px;
   }
-  .proof-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:4px;
+  .proof .item{ text-align:center; }
+  .proof .num{ font-family:'Anton',sans-serif; font-size:20px; color:var(--red); display:block; line-height:1; }
+  .proof .lbl{ font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-dim); margin-top:4px; display:block; }
+  .proof .sep{ width:1px; height:30px; background:var(--line); }
+
+  /* CTA */
+  .cta{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:18px 20px;
+    background:linear-gradient(180deg, #ff2f3d, var(--red) 60%, var(--red-deep));
+    border:none; border-radius:16px;
+    color:#fff; font-family:'Inter',sans-serif; font-weight:800; font-size:16.5px; letter-spacing:.02em;
+    text-transform:uppercase; text-decoration:none;
+    box-shadow:0 16px 34px -12px rgba(224,30,43,.65), inset 0 1px 0 rgba(255,255,255,.25);
+    animation:breathe 2.2s ease-in-out infinite;
   }
-  .proof-num{
-    font-family:'Anton',sans-serif;
-    font-size:1.6rem;
-    color:var(--gold);
+  .cta svg{ width:20px; height:20px; flex-shrink:0; }
+  @keyframes breathe{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.025); } }
+  .cta-note{
+    text-align:center; font-size:12.5px; color:var(--ink-dim); margin-top:12px; line-height:1.5;
   }
-  .proof-label{
-    font-size:.72rem;
-    color:var(--muted);
-    text-transform:uppercase;
-    letter-spacing:.06em;
+  .cta-note b{ color:var(--ink); }
+
+  .divider{ height:1px; background:var(--line); margin:28px 0 20px; }
+
+  .footer{
+    font-size:10.5px; line-height:1.6; color:rgba(168,165,160,.55);
+    text-align:center; max-width:360px; margin:0 auto;
   }
 
-  /* divider */
-  .divider{
-    width:60px;
-    height:2px;
-    background:linear-gradient(90deg,transparent,var(--red),transparent);
-    margin:48px auto;
+  @media (max-height:700px){
+    .hero{ margin-top:2px; }
   }
-
-  /* benefits */
-  .section{padding:0 20px 60px;max-width:600px;margin:0 auto}
-  .section-title{
-    font-family:'Anton',sans-serif;
-    font-size:clamp(1.6rem,5vw,2.4rem);
-    text-align:center;
-    margin-bottom:28px;
-    text-transform:uppercase;
-  }
-  .benefit-list{display:flex;flex-direction:column;gap:14px}
-  .benefit{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:16px 20px;
-    display:flex;
-    align-items:flex-start;
-    gap:14px;
-  }
-  .benefit-icon{font-size:1.5rem;flex-shrink:0;margin-top:2px}
-  .benefit-text strong{display:block;font-weight:700;margin-bottom:4px}
-  .benefit-text span{font-size:.875rem;color:var(--muted)}
-
-  /* social proof */
-  .testimonials{
-    padding:0 20px 60px;
-    max-width:600px;
-    margin:0 auto;
-  }
-  .testi-grid{display:flex;flex-direction:column;gap:12px}
-  .testi{
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:16px;
-  }
-  .testi-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-  .testi-avatar{
-    width:36px;height:36px;border-radius:50%;
-    background:linear-gradient(135deg,var(--red),var(--gold));
-    display:flex;align-items:center;justify-content:center;
-    font-weight:700;font-size:.85rem;color:#fff;flex-shrink:0;
-  }
-  .testi-name{font-weight:700;font-size:.9rem}
-  .testi-stars{color:var(--gold);font-size:.8rem}
-  .testi-body{font-size:.875rem;color:#ccc;line-height:1.5}
-
-  /* bottom CTA */
-  .bottom-cta{
-    text-align:center;
-    padding:0 20px 80px;
-  }
-  .bottom-cta p{color:var(--muted);font-size:.85rem;margin-top:12px}
 
   /* TikTok overlay */
   #tiktok-overlay{
     display:none;
-    position:fixed;inset:0;
+    position:fixed; inset:0;
     background:rgba(0,0,0,.85);
     z-index:9999;
     flex-direction:column;
@@ -310,7 +164,7 @@
     font-weight:700;font-size:.85rem;flex-shrink:0;
   }
   .tt-step-text{font-size:.9rem;color:#ccc;line-height:1.4;padding-top:3px}
-  .tt-step-text span{color:var(--gold);font-weight:600}
+  .tt-step-text span{color:#f5c518;font-weight:600}
   .tt-mockup{color:#666;font-size:.8rem;text-align:center;margin-bottom:16px}
   .tt-close{
     width:100%;
@@ -439,133 +293,40 @@ function fecharOverlay() {
     <div class="tt-steps">
       <div class="tt-step"><div class="tt-step-num">1</div><div class="tt-step-text">Toque nos <span>3 pontinhos ···</span> no canto superior direito</div></div>
       <div class="tt-step"><div class="tt-step-num">2</div><div class="tt-step-text">Selecione <span>"Abrir no navegador"</span></div></div>
-      <div class="tt-step"><div class="tt-step-num">3</div><div class="tt-step-text">Clique em <span>Receber no Telegram</span> novamente ✅</div></div>
+      <div class="tt-step"><div class="tt-step-num">3</div><div class="tt-step-text">Clique em <span>Entrar no grupo</span> novamente ✅</div></div>
     </div>
     <div class="tt-mockup">...</div>
     <div class="tt-close" onclick="fecharOverlay()">Fechar</div>
   </div>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="badges">
-    <span class="badge">⚡ Ao vivo todo dia</span>
-    <span class="badge">🏆 +2 anos de resultado</span>
-    <span class="badge">🔒 Acesso gratuito</span>
+  <div class="wrap">
+
+    <div class="eyebrow"><span class="dot"></span> GRUPO ABERTO AGORA</div>
+
+    <div class="hero">
+      <div class="hero-ring">
+        <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBAUEBAYFBQUGBgYHCQ4JCQgICRINDQoOFRIWFhUSFBQXGiEcFxgfGRQUHScdHyIjJSUlFhwpLCgkKyEkJST/2wBDAQYGBgkICREJCREkGBQYJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCT/wAARCAOEA4QDASIAAhEBAxEB/8QAHAAAAQUBAQEAAAAAAAAAAAAAAAECAwQFBgcI/8QASxAAAQMDAwIEAwUGBAQFAwEJAQACEQMEIQUSMUFRBiJhcROBkQcUMqGxI0JSwdHwFTNi4SRygvEIFkNTkiU0smOiwhdEZNJUo+L/xAAbAQACAwEBAQAAAAAAAAAAAAAAAQIDBAUGB//EADQRAAICAQQCAgEDAwMDBAMAAAABAhEDBBIhMQVBE1EiFDJhQnGBBiOhkbHRFRZD8CQzUv/aAAwDAQACEQMRAD8AfW8XbjwE+08Tse/znauG3HuU9oqbS9pwF4T9LCjk/Gj1qw1ihWaCKgWmy/pkYeD814xR1G6ofgerlPxJf0jh35rLPQ30yt4T1p9+wfvD6qpX1KnH4x9V5i/xPfP5cPqoH67du5I+qI6BgsJ6Bc6nSc7/ADApLa9Yf3gvNH6pcOMz+asW+v1qODu+RVj0jol8R6g27YR+JPZXa48rzdviqqP3nD3Vu28XOBG54VL0kiPxM9HpvEcqT4gHVcVQ8Y0SM1W/VTnxfbx+MfVUvTT+iHxs6t9Yd1HvBXKf+aaTzgz81ZoeIqT4lyT08l6DYzpRHumPA7D5rKp63Qd++EtXWKJb+MFQ+OVkdrKOuwGOxnqZ5XEXNQ/FIk8ro9Z1Wk9rgHZXKVqwdU5XT08GlyaII17AuMGZXQ2TJAJg5XNadUaCJOF0llXa0gyPqoZkKRvWTIADRLiOScBaFMbRkZIhZVrXbI69/VadBwe0Hc0GYXOmmUMtTDJGD1x+acIPB46HoohVBaWghP3dFVREbUioAHYaOVlXWDIMAHHeFq1NsxIHusm/LW4iPUKzGNCW79wjrKmrDybu4n2WbRqjdG48q26pubhxMKxqmSaOf1tkA4+S429aC+Au41Vm8OaASfRcbe04eZHyXR074L8ZnR1GOkJR6SnbYKUAgdgfRaywG0w5hO6HdB3TecQnH0j6JOnH1QA2I6ogQAJlPj5AD6pCDwSgBm0ZCQjGVIG4yUjhJJImEWMjJzlLwYx9EpbPT1RyfVMBWkHsCl+HI9kREAhOED07+qQhhpyeMdkNBaecBSAjmMdUHABCLAe24IET80v35zRyoXD/ALqNwMzAn1SpBRcGqVGCNxA7SrltrLgcvPHfqsFzCTMpG7hmeEPHFhtR21prggbnHOFs2+rtdGeBHK87p3D6ZxhXKOpPYI3EQOizT0yZBwPSqeoMc1rt4J4VhlyJaN3yC8/t9ae2DMDj2Wra63uJM/7LLPTNFbxnbNriQPLESY6+6HPBIcJ3u6DsudtdWpu/EQR7q/RvwX/jiRlZ3jaIOLNUOhxI8xMRHVK10TMxOPRUxchxjAbHllPZcbWbQ4AcnMwq3EVF1kvEt/ePTogBpaASRHQd+yrCviJPc7cKVj27WtMyIjKTQUOwQHbmtj6pH24womTk+iQVIkETTJgSMp5fw2RDjx290ugKooEv5DeuVXfYjc7BLpJjotLdxAgHmeqHQ0tmASMKSk0NMwriwqCmGvLWhsYA6LJr2PwyXDcCOHOzuIXXVKdN+5uJjgnCz7iz5Ia0tj94YCthlJKRxdWxJfIZuaSTA5hVRaPe51NoALczxJXX1dP3UgSAW7fMB/JUnaVIguayczGT6LVHNwWKRzPwZPRrh34MJwDwdu7YWHiOTPdbb7BlH/NYCImW5JzwqVayqBu8nzRtOJj09/VWLImSTK1Ou+m4u2ZB29w73Vy3vnU3NAc8Oc3JOScxEKobba1zJa10zJ6JzmOYX1GtBeW5zwepCGkwZtW18Ler5nB4aIM4ytSnqALvNUaGTBkYHuuPpvduYKjvKTuOeVZp6i6kwsh0tGYEifZVSxWKjtre/plxnbPUjglXBdANDw6ZkuHdcXb6k5tJha9rhOdwgj19lp0dU2sY17tjg6DmT7lZ5Ymgo6htQSW5IjB6KVhaQIdI/Rc/Q1CGtaI5ky+cd5V6jdgEiQcDk5VTiNdmmHwCfMBlOBw4ic4lUmVy5w4hvfqe6ea5DfKRz3hRoZc35zmMY5Ti8h08dpKqtrSXYOACSP0UgqDBPXKfJJE4O4ZzKHdgIPqohUBODB4KX4g/DOR+SkmAOxxAHqq1QtaDI5wVM94End2CrPc4bpgjpHKtUqQyJ5DWwAI4A/ko6jWAcWuI4PKvUHByGySrJA4E9AlYvXm5bBaZMSDGT+i1LGqCCVfpuEcqhqNKm4EMDPcoTarE9WjY30qkpj4YUbqZBzghWiDlRyBjtlZpJbFlE5TxB5iYgK0wB0Ci6JqcVF2Bra7CICrXGjio5zdpFMfimR+assc19P0AnoqT4PpyK2i2GFjWZHurzX5K0UT9tCgIERMHhUmGgqMuBhKxW7KthVVrIiIWVeWrLhm1YWpRLCVWqWjquwOVvWTvTR09VKWkFZt1bSSK1KrSxW6V01s4EJjq6F4XP+JqJNqHDstGgrO+I2lup5oNRpMgTlZtWqKFEi8+VpCqMOBcArb0Cp5X56LzLR9fvNN1GnXoP2Pb/ADH1HuF6ZpusUdUot+C8APGWHqs2mjHmjcToSjlXKPRGtjkpGSuDwcqSUQkCbUhSIWiLrXQRYHzKq1bhnIJ9lcMKS8ACJBCsRBBzVcrY9FVrPCgqVlCq6ZhValmCXDyqjfvpK8laq1ZwqcMqJaqEiVmkzh7jKstqEqOa3Ep9VuQVp9u19qzBVtRxcZ0cFJWpN9VjXEGAVLQuS1u6JB5VRSSJ50yBPRLJBzBBUVSm6DmpyqjEIODnKjtQnCU54CW6q4niEGJBcE1wkIu5KVKUG9UhBGeFQGQqzpSbpN2bBSTGRwpIHdNJFoYE6pzEjCeY6JQPN9EwMEnHFQMjIHJhEjI46oHbhOaZA4wm7SCk2xpxAPE/RRkwBE9lLQWHfPGOyhc8Hb1Cac6aghS1VuSmfp+5VUPJBkj2UbHQAMBWadUGJCq1KRTGJJ7KFyLoE5UqCaQxOYBhIZGCnRtBxCa7A+SFO/7ixqR0GcIk9UkE5E/NJxaJIMIBSiLkHJTWgHklJzUkEsUMFKUhOqVgJSFkTggxhKAl3jJ9E5v4jPEJiJHqhB4GAkKLGtUJwl3SMJQJCJRKUkYSosFQlQoWMUDCJUjJHMJU2DoCcBQMBKQSQgBKkKEAKikSFAAhKJSlAAhCEGIUkoSABCEIAEIQgAQhCABCEIAEIQgAQhCABCEIAEIQgB//9k=" alt="Tipster">
+      </div>
+      <div class="badge b1">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="badge b2">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5l5 5L20 6.5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <h1 class="headline">PARABÉNS,<br>SUA VAGA <span>FOI GARANTIDA</span></h1>
+    <p class="subhead">Você acaba de garantir acesso ao grupo gratuito de dicas diários.</p>
+
+    <a href="#" class="cta" data-trackpanel onclick="dispararLead(event)">
+      <svg viewBox="0 0 240 240" fill="none"><path d="M120 0C53.7 0 0 53.7 0 120s53.7 120 120 120 120-53.7 120-120S186.3 0 120 0z" fill="#fff" opacity="0"/><path d="M186.5 61.3L163.7 176.2c-1.7 7.6-6.3 9.5-12.7 5.9l-35-25.8-16.9 16.3c-1.9 1.9-3.4 3.4-7 3.4l2.5-35.7 65-58.7c2.8-2.5-.6-3.9-4.4-1.4l-80.3 50.6-34.6-10.8c-7.5-2.3-7.7-7.5 1.6-11.1l135.4-52.2c6.3-2.3 11.8 1.5 9.7 11.6z" fill="#e01e2b"/></svg>
+      Entrar no grupo agora
+    </a>
+    <p class="cta-note">Toque no botão acima para <b>entrar no grupo</b> e começar a receber as dicas ainda hoje.</p>
+
+    <div class="divider"></div>
+    <p class="footer">MINISTÉRIO DA FAZENDA ADVERTE:<br>APOSTA NÃO É INVESTIMENTO.<br>AUTORIZADO PELA SPA/MF 523/2025.<br>OFERTAS E ODDS PODEM SOFRER ALTERAÇÕES.</p>
   </div>
-
-  <div class="photo-wrap">
-    <div class="photo-initials">JC</div>
-  </div>
-
-  <h1 class="headline">Dicas que<br><span>realmente</span><br>entram</h1>
-  <p class="sub">Entre para o grupo do JC e receba análises cirúrgicas antes de cada partida — direto no seu Telegram, sem enrolação.</p>
-
-  <a href="#" class="cta" data-trackpanel onclick="dispararLead(event)">
-    <span class="cta-icon">📲</span>
-    Entrar no grupo gratuito
-  </a>
-
-  <div class="proof">
-    <div class="proof-item">
-      <span class="proof-num">+18k</span>
-      <span class="proof-label">Membros</span>
-    </div>
-    <div class="proof-item">
-      <span class="proof-num">73%</span>
-      <span class="proof-label">Taxa de acerto</span>
-    </div>
-    <div class="proof-item">
-      <span class="proof-num">R$ 0</span>
-      <span class="proof-label">Custo de entrada</span>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- BENEFITS -->
-<section class="section">
-  <h2 class="section-title">O que você recebe</h2>
-  <div class="benefit-list">
-    <div class="benefit">
-      <div class="benefit-icon">⚽</div>
-      <div class="benefit-text">
-        <strong>Palpites diários com fundamento</strong>
-        <span>Análise de odds, forma recente e contexto do jogo — nada de chute.</span>
-      </div>
-    </div>
-    <div class="benefit">
-      <div class="benefit-icon">📊</div>
-      <div class="benefit-text">
-        <strong>Histórico transparente</strong>
-        <span>Resultados postados todos os dias. Sem esconder nenhuma entrada.</span>
-      </div>
-    </div>
-    <div class="benefit">
-      <div class="benefit-icon">🚀</div>
-      <div class="benefit-text">
-        <strong>Alertas em tempo real</strong>
-        <span>Notificação no Telegram antes de fechar a janela de aposta.</span>
-      </div>
-    </div>
-    <div class="benefit">
-      <div class="benefit-icon">🎓</div>
-      <div class="benefit-text">
-        <strong>Educação contínua</strong>
-        <span>Conteúdo sobre gestão de banca e estratégia de longo prazo.</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<!-- TESTIMONIALS -->
-<section class="testimonials">
-  <h2 class="section-title">Quem já está dentro</h2>
-  <div class="testi-grid">
-    <div class="testi">
-      <div class="testi-header">
-        <div class="testi-avatar">RS</div>
-        <div>
-          <div class="testi-name">Rafael S.</div>
-          <div class="testi-stars">★★★★★</div>
-        </div>
-      </div>
-      <p class="testi-body">"Semana passada fechei 4 greens seguidos com as dicas do JC. Recomendo pra qualquer um que leva aposta a sério."</p>
-    </div>
-    <div class="testi">
-      <div class="testi-header">
-        <div class="testi-avatar">AM</div>
-        <div>
-          <div class="testi-name">Ana M.</div>
-          <div class="testi-stars">★★★★★</div>
-        </div>
-      </div>
-      <p class="testi-body">"Entrei sem expectativa e fiquei surpresa com a qualidade. O JC explica o raciocínio por trás de cada entrada."</p>
-    </div>
-    <div class="testi">
-      <div class="testi-header">
-        <div class="testi-avatar">TL</div>
-        <div>
-          <div class="testi-name">Thiago L.</div>
-          <div class="testi-stars">★★★★★</div>
-        </div>
-      </div>
-      <p class="testi-body">"Melhor grupo gratuito que já participei. Transparência total no histórico e dicas com fundamento real."</p>
-    </div>
-  </div>
-</section>
-
-<!-- BOTTOM CTA -->
-<div class="bottom-cta">
-  <a href="#" class="cta" data-trackpanel onclick="dispararLead(event)">
-    <span class="cta-icon">📲</span>
-    Quero entrar agora — é grátis
-  </a>
-  <p>Vagas limitadas · Sem cartão de crédito · Saia quando quiser</p>
-</div>
-
 </body>
 </html>
