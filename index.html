@@ -179,45 +179,6 @@
   }
 </style>
 
-<!-- Custom Tracker -->
-<script>
-(function(){
-  var B="https://track.grupojc.cc/track/b215d5e4-a406-450d-bc5f-f9687470105e";
-  var R="https://a.workingcomp.uk/";
-  var k="_tid";
-  var sid=sessionStorage.getItem(k)||(Math.random().toString(36).slice(2)+Date.now().toString(36));
-  sessionStorage.setItem(k,sid);
-  var sp=new URLSearchParams(location.search);
-  var utms=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
-  var utmParams={};
-  utms.forEach(function(u){ var v=sp.get(u); if(v) utmParams[u]=v; });
-  if(Object.keys(utmParams).length) sessionStorage.setItem("_utms",JSON.stringify(utmParams));
-  function getUtms(){ try{ return JSON.parse(sessionStorage.getItem("_utms")||"{}"); }catch(e){ return {}; } }
-  function track(type,meta){
-    fetch(B,{method:"POST",headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({event_type:type,session_id:sid,url:location.href,metadata:Object.assign({},getUtms(),meta||{})}),keepalive:true
-    }).catch(function(){});
-  }
-  track("pageview");
-  function wireButtons(){
-    document.querySelectorAll("[data-trackpanel]").forEach(function(el){
-      var q=new URLSearchParams(getUtms()).toString();
-      el.href=R+(q?"?"+q:"");
-      el.addEventListener("click",function(){},true);
-    });
-  }
-  if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded", wireButtons);}else{wireButtons();}
-  document.addEventListener("click",function(e){
-    var el=e.target;
-    while(el&&el!==document.body){
-      if(el.dataset&&el.dataset.track){track("click",{label:el.dataset.track,text:el.innerText||""});return;}
-      if(el.tagName==="BUTTON"||el.tagName==="A"){track("click",{tag:el.tagName,text:el.innerText||""});return;}
-      el=el.parentElement;
-    }
-  },true);
-})();
-</script>
-
 <!-- TikTok Pixel -->
 <script>
 !function (w, d, t) {
@@ -319,7 +280,7 @@ function fecharOverlay() {
     <h1 class="headline">PARABÉNS,<br>SUA VAGA <span>FOI GARANTIDA</span></h1>
     <p class="subhead">Você acaba de garantir acesso ao grupo gratuito de dicas diários.</p>
 
-    <a href="#" class="cta" data-trackpanel onclick="dispararLead(event)">
+    <a href="#" class="cta" onclick="dispararLead(event)">
       <svg viewBox="0 0 240 240" fill="none"><path d="M120 0C53.7 0 0 53.7 0 120s53.7 120 120 120 120-53.7 120-120S186.3 0 120 0z" fill="#fff" opacity="0"/><path d="M186.5 61.3L163.7 176.2c-1.7 7.6-6.3 9.5-12.7 5.9l-35-25.8-16.9 16.3c-1.9 1.9-3.4 3.4-7 3.4l2.5-35.7 65-58.7c2.8-2.5-.6-3.9-4.4-1.4l-80.3 50.6-34.6-10.8c-7.5-2.3-7.7-7.5 1.6-11.1l135.4-52.2c6.3-2.3 11.8 1.5 9.7 11.6z" fill="#e01e2b"/></svg>
       Entrar no grupo agora
     </a>
