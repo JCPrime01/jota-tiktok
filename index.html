@@ -238,12 +238,12 @@ function fecharOverlay() {
 }
 
 function copiarLink() {
-  navigator.clipboard.writeText(window.location.href).then(function() {
+  navigator.clipboard.writeText(REDIRECT_URL).then(function() {
     var btn = document.getElementById('tt-copy-btn');
     btn.textContent = '✅ Link copiado!';
     setTimeout(function(){ btn.textContent = '📋 Copiar link'; }, 2500);
   }).catch(function() {
-    prompt('Copie o link abaixo:', window.location.href);
+    prompt('Copie o link abaixo:', REDIRECT_URL);
   });
 }
 
