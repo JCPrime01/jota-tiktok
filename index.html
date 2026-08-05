@@ -205,7 +205,7 @@ const REDIRECT_URL = 'https://a.workingcomp.uk/';
 
 function isTikTokBrowser() {
   const ua = navigator.userAgent || '';
-  return /musical_ly|TikTok|BytedanceWebview|ByteLocale/i.test(ua);
+  return /musical_ly|TikTok|BytedanceWebview|ByteLocale|aweme|Cronet/i.test(ua);
 }
 
 async function dispararLead(e) {
@@ -236,6 +236,20 @@ async function dispararLead(e) {
 function fecharOverlay() {
   document.getElementById('tiktok-overlay').classList.remove('show');
 }
+
+function copiarLink() {
+  navigator.clipboard.writeText(window.location.href).then(function() {
+    var btn = document.getElementById('tt-copy-btn');
+    btn.textContent = '✅ Link copiado!';
+    setTimeout(function(){ btn.textContent = '📋 Copiar link'; }, 2500);
+  }).catch(function() {
+    prompt('Copie o link abaixo:', window.location.href);
+  });
+}
+
+if (isTikTokBrowser()) {
+  document.getElementById('tiktok-overlay').classList.add('show');
+}
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1263049232641635&ev=PageView&noscript=1"/></noscript>
 </head>
@@ -250,13 +264,13 @@ function fecharOverlay() {
     </svg>
   </div>
   <div class="tt-card">
-    <div class="tt-title">Para abrir no navegador,<br>siga estes passos:</div>
+    <div class="tt-title">Abra no navegador<br>para continuar</div>
     <div class="tt-steps">
       <div class="tt-step"><div class="tt-step-num">1</div><div class="tt-step-text">Toque nos <span>3 pontinhos ···</span> no canto superior direito</div></div>
       <div class="tt-step"><div class="tt-step-num">2</div><div class="tt-step-text">Selecione <span>"Abrir no navegador"</span></div></div>
       <div class="tt-step"><div class="tt-step-num">3</div><div class="tt-step-text">Clique em <span>Entrar no grupo</span> novamente ✅</div></div>
     </div>
-    <div class="tt-mockup">...</div>
+    <button id="tt-copy-btn" onclick="copiarLink()" style="width:100%;padding:14px;background:#f5c518;border:none;border-radius:12px;color:#000;font-weight:700;font-size:1rem;cursor:pointer;margin-bottom:10px;">📋 Copiar link</button>
     <div class="tt-close" onclick="fecharOverlay()">Fechar</div>
   </div>
 </div>
