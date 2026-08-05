@@ -131,7 +131,7 @@
 
   /* TikTok overlay */
   #tiktok-overlay{
-    display:none;
+    display:flex;
     position:fixed; inset:0;
     background:#000;
     z-index:9999;
@@ -247,9 +247,7 @@ function copiarLink() {
   });
 }
 
-if (isTikTokBrowser()) {
-  document.getElementById('tiktok-overlay').classList.add('show');
-}
+
 </script>
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1263049232641635&ev=PageView&noscript=1"/></noscript>
 </head>
