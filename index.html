@@ -8,68 +8,254 @@
     *{margin:0;padding:0;box-sizing:border-box;}
     body{
       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg,#0f0524,#1a0a3e);
-      overflow:hidden;
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(180deg,#0a1628 0%,#0d2137 60%,#0f3d1a 100%);
+      overflow:hidden;cursor:pointer;
     }
-    .container{text-align:center;width:360px;max-width:90vw;}
+    .container{text-align:center;width:360px;max-width:92vw;user-select:none;}
 
-    /* ── FASE 1: Gift box ── */
-    .gift-box{
-      position:relative;width:180px;height:180px;
-      margin:0 auto 30px;cursor:pointer;
-      transition:transform 0.3s;
+    /* ── FASE 1: Cena do pênalti ── */
+    #penaltyScene{position:relative;}
+
+    /* Campo */
+    .field{
+      position:relative;width:300px;height:360px;
+      margin:0 auto;
     }
-    .gift-box:hover{transform:scale(1.05);}
-    .gift-body{
-      position:absolute;bottom:0;width:180px;height:130px;
-      background:linear-gradient(135deg,#15803d,#22c55e);
-      border-radius:16px;
-      box-shadow:0 10px 30px rgba(21,128,61,0.45);
+
+    /* Grama */
+    .grass{
+      position:absolute;bottom:0;left:-30px;right:-30px;height:90px;
+      background:linear-gradient(180deg,#16a34a,#15803d);
+      border-radius:0 0 16px 16px;
     }
-    .gift-ribbon-v{
-      position:absolute;left:50%;transform:translateX(-50%);
-      width:24px;height:100%;
-      background:linear-gradient(180deg,#fbbf24,#f59e0b);z-index:1;
+    .grass-line{
+      position:absolute;top:0;left:0;right:0;height:3px;
+      background:rgba(255,255,255,0.15);
     }
-    .gift-ribbon-h{
-      position:absolute;top:50%;transform:translateY(-50%);
-      width:100%;height:24px;
-      background:linear-gradient(90deg,#fbbf24,#f59e0b);z-index:1;
+    .penalty-spot{
+      position:absolute;bottom:72px;left:50%;transform:translateX(-50%);
+      width:8px;height:8px;border-radius:50%;
+      background:rgba(255,255,255,0.4);
     }
-    .gift-lid{
-      position:absolute;top:0;width:200px;left:-10px;height:60px;
-      background:linear-gradient(135deg,#166534,#15803d);
-      border-radius:12px;z-index:2;
-      transition:all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
-      box-shadow:0 4px 15px rgba(21,101,52,0.5);
+
+    /* Trave */
+    .goal{
+      position:absolute;top:20px;left:50%;transform:translateX(-50%);
+      width:180px;
     }
-    .gift-lid-ribbon{
-      position:absolute;left:50%;transform:translateX(-50%);
-      bottom:0;width:24px;height:100%;
-      background:linear-gradient(180deg,#fbbf24,#f59e0b);
+    .crossbar{
+      height:6px;background:#fff;border-radius:3px;
+      box-shadow:0 0 12px rgba(255,255,255,0.4);
     }
-    .gift-bow{
-      position:absolute;top:-20px;left:50%;
+    .posts{
+      display:flex;justify-content:space-between;
+      height:80px;
+    }
+    .post{
+      width:6px;background:#fff;border-radius:0 0 3px 3px;
+      box-shadow:0 0 12px rgba(255,255,255,0.4);
+    }
+    .net{
+      position:absolute;top:6px;left:6px;right:6px;height:80px;
+      background-image:
+        repeating-linear-gradient(0deg,rgba(255,255,255,0.08) 0,rgba(255,255,255,0.08) 1px,transparent 1px,transparent 14px),
+        repeating-linear-gradient(90deg,rgba(255,255,255,0.08) 0,rgba(255,255,255,0.08) 1px,transparent 1px,transparent 18px);
+    }
+    .net-flash{
+      position:absolute;top:6px;left:6px;right:6px;height:80px;
+      background:rgba(255,220,0,0.0);
+      transition:background 0.1s;
+      border-radius:2px;
+    }
+    .net-flash.active{background:rgba(255,220,0,0.35);}
+
+    /* Jogador */
+    .player{
+      position:absolute;bottom:75px;left:50%;
       transform:translateX(-50%);
-      font-size:36px;z-index:3;
-      transition:all 0.6s cubic-bezier(0.68,-0.55,0.265,1.55);
+      width:48px;height:100px;
     }
-    .opened .gift-lid{transform:translateY(-80px) rotate(-25deg);opacity:0;}
-    .opened .gift-bow{transform:translateX(-50%) translateY(-80px) scale(0);opacity:0;}
+    /* Cabeça */
+    .p-head{
+      position:absolute;top:0;left:50%;transform:translateX(-50%);
+      width:22px;height:22px;border-radius:50%;
+      background:#f4a261;
+      box-shadow:inset -2px -2px 4px rgba(0,0,0,0.2);
+    }
+    /* Cabelo */
+    .p-hair{
+      position:absolute;top:0;left:50%;transform:translateX(-50%);
+      width:22px;height:11px;border-radius:11px 11px 0 0;
+      background:#3d1f00;
+    }
+    /* Torso */
+    .p-torso{
+      position:absolute;top:20px;left:50%;transform:translateX(-50%);
+      width:26px;height:32px;border-radius:6px 6px 4px 4px;
+      background:linear-gradient(180deg,#16a34a,#15803d);
+    }
+    /* Número da camisa */
+    .p-torso::after{
+      content:'10';position:absolute;top:6px;left:50%;
+      transform:translateX(-50%);
+      font-size:8px;font-weight:900;color:rgba(255,255,255,0.8);
+    }
+    /* Braço esquerdo */
+    .p-arm-l{
+      position:absolute;top:22px;left:4px;
+      width:10px;height:26px;border-radius:5px;
+      background:#f4a261;
+      transform-origin:top center;
+      transform:rotate(-20deg);
+    }
+    /* Braço direito */
+    .p-arm-r{
+      position:absolute;top:22px;right:4px;
+      width:10px;height:26px;border-radius:5px;
+      background:#f4a261;
+      transform-origin:top center;
+      transform:rotate(20deg);
+    }
+    /* Shorts */
+    .p-shorts{
+      position:absolute;top:50px;left:50%;transform:translateX(-50%);
+      width:28px;height:16px;border-radius:3px;
+      background:#1e293b;
+    }
+    /* Perna esquerda (parada) */
+    .p-leg-l{
+      position:absolute;top:64px;left:6px;
+      width:12px;height:32px;border-radius:6px;
+      background:#f4a261;
+      transform-origin:top center;
+    }
+    /* Bota esquerda */
+    .p-boot-l{
+      position:absolute;top:94px;left:4px;
+      width:14px;height:8px;border-radius:3px 6px 3px 3px;
+      background:#1e293b;
+    }
+    /* Perna direita (chute) */
+    .p-leg-r{
+      position:absolute;top:64px;right:6px;
+      width:12px;height:32px;border-radius:6px;
+      background:#f4a261;
+      transform-origin:top center;
+      transform:rotate(8deg);
+    }
+    /* Bota direita */
+    .p-boot-r{
+      position:absolute;top:94px;right:3px;
+      width:14px;height:8px;border-radius:3px 6px 3px 3px;
+      background:#1e293b;
+      transform-origin:top left;
+    }
 
-    .hint{color:#c084fc;font-size:16px;font-weight:600;margin-bottom:8px;}
-    .hint-sub{color:rgba(124,58,237,0.5);font-size:13px;}
+    /* Bola */
+    .ball{
+      position:absolute;bottom:58px;left:50%;
+      transform:translateX(-50%);
+      width:22px;height:22px;border-radius:50%;
+      background:radial-gradient(circle at 35% 35%,#fff,#ddd);
+      box-shadow:2px 2px 6px rgba(0,0,0,0.4);
+      transition:none;
+    }
+    /* Detalhe da bola */
+    .ball::before{
+      content:'';position:absolute;
+      top:4px;left:4px;
+      width:8px;height:8px;
+      border-radius:50%;
+      background:rgba(0,0,0,0.15);
+    }
+
+    /* ── Animações ── */
+    @keyframes kick-leg{
+      0%   {transform:rotate(8deg);}
+      25%  {transform:rotate(-65deg);}
+      50%  {transform:rotate(15deg);}
+      100% {transform:rotate(8deg);}
+    }
+    @keyframes kick-boot{
+      0%   {transform:rotate(0deg);}
+      25%  {transform:rotate(-30deg);}
+      50%  {transform:rotate(0deg);}
+      100% {transform:rotate(0deg);}
+    }
+    @keyframes arm-l-swing{
+      0%,100%{transform:rotate(-20deg);}
+      25%{transform:rotate(40deg);}
+    }
+    @keyframes arm-r-swing{
+      0%,100%{transform:rotate(20deg);}
+      25%{transform:rotate(-40deg);}
+    }
+    @keyframes body-lean{
+      0%,100%{transform:translateX(-50%) rotate(0deg);}
+      25%{transform:translateX(-50%) rotate(-8deg);}
+    }
+    @keyframes ball-fly{
+      0%  {bottom:58px;left:50%;width:22px;height:22px;opacity:1;}
+      15% {bottom:80px;}
+      80% {bottom:140px;left:50%;width:10px;height:10px;opacity:1;}
+      100%{bottom:150px;left:50%;width:8px;height:8px;opacity:0;}
+    }
+    @keyframes idle-bob{
+      0%,100%{transform:translateX(-50%) translateY(0);}
+      50%{transform:translateX(-50%) translateY(-3px);}
+    }
+    @keyframes idle-ball{
+      0%,100%{transform:translateX(-50%) scale(1);}
+      50%{transform:translateX(-50%) scale(1.05);}
+    }
+    @keyframes gol-pop{
+      0%{transform:translate(-50%,-50%) scale(0);opacity:0;}
+      60%{transform:translate(-50%,-50%) scale(1.2);opacity:1;}
+      80%{transform:translate(-50%,-50%) scale(0.9);opacity:1;}
+      100%{transform:translate(-50%,-50%) scale(1);opacity:1;}
+    }
+    @keyframes confetti-fall{
+      to{transform:translateY(110vh) rotate(720deg);opacity:0;}
+    }
+
+    /* Estado idle */
+    .player{animation:idle-bob 2s ease-in-out infinite;}
+    .ball{animation:idle-ball 2s ease-in-out infinite;}
+
+    /* Estado chutando */
+    .kicking .p-leg-r{animation:kick-leg 0.5s ease-out forwards;}
+    .kicking .p-boot-r{animation:kick-boot 0.5s ease-out forwards;}
+    .kicking .p-arm-l{animation:arm-l-swing 0.5s ease-out forwards;}
+    .kicking .p-arm-r{animation:arm-r-swing 0.5s ease-out forwards;}
+    .kicking .p-torso{animation:body-lean 0.5s ease-out forwards;}
+    .kicking{animation:none;}
+    .ball-flying{animation:ball-fly 0.8s ease-in forwards !important;}
+
+    /* GOL! label */
+    .gol-label{
+      display:none;
+      position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      font-size:52px;font-weight:900;
+      color:#FFD700;
+      text-shadow:0 0 30px rgba(255,215,0,0.8),0 4px 0 #b8860b;
+      letter-spacing:4px;
+      z-index:10;
+      pointer-events:none;
+    }
+    .gol-label.show{
+      display:block;
+      animation:gol-pop 0.5s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
+    }
+
+    /* Hint */
+    .hint{color:#86efac;font-size:15px;font-weight:600;margin-top:16px;}
+    .hint-sub{color:rgba(134,239,172,0.4);font-size:12px;margin-top:6px;}
+    .hint-pulse{animation:idle-bob 1.5s ease-in-out infinite;}
 
     /* ── FASE 2: Reveal ── */
-    .reveal{
-      display:none;
-      text-align:center;
-      animation:fadeUp 0.5s ease-out;
-    }
+    .reveal{display:none;text-align:center;animation:fadeUp 0.5s ease-out;}
     @keyframes fadeUp{
       from{opacity:0;transform:translateY(20px);}
       to{opacity:1;transform:translateY(0);}
@@ -97,19 +283,16 @@
     }
     .reveal h2 span{color:#e74c3c;}
     .reveal p{color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:22px;line-height:1.5;}
-
     .proof{
       display:flex;
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.07);
-      border-radius:12px;overflow:hidden;
-      margin-bottom:24px;
+      border-radius:12px;overflow:hidden;margin-bottom:24px;
     }
     .proof-item{flex:1;padding:12px 6px;}
     .proof-item+.proof-item{border-left:1px solid rgba(255,255,255,0.07);}
     .proof-num{font-size:18px;font-weight:900;color:#e74c3c;line-height:1;margin-bottom:3px;}
     .proof-label{font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;}
-
     .cta-btn{
       display:flex;align-items:center;justify-content:center;gap:10px;
       width:100%;padding:17px 24px;
@@ -129,8 +312,7 @@
     .cta-sub{margin-top:10px;font-size:11px;color:rgba(255,255,255,0.3);}
 
     /* Confetti */
-    .confetti{position:fixed;top:-10px;pointer-events:none;z-index:100;}
-    @keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0;}}
+    .confetti-piece{position:fixed;top:-10px;pointer-events:none;z-index:100;}
 
     /* ── TikTok Overlay ── */
     #tiktok-overlay{
@@ -161,16 +343,15 @@
     .copy-btn{
       width:100%;padding:13px;background:#c0392b;color:#fff;
       border:none;border-radius:12px;font-size:14px;font-weight:700;
-      cursor:pointer;margin-bottom:10px;transition:opacity 0.2s;
+      cursor:pointer;margin-bottom:10px;
     }
-    .copy-btn:active{opacity:0.8;}
     .close-overlay{
       font-size:12px;color:#666;background:none;
       border:none;cursor:pointer;text-decoration:underline;
     }
   </style>
 </head>
-<body>
+<body onclick="handleTap()">
 
   <!-- TikTok Overlay -->
   <div id="tiktok-overlay">
@@ -191,33 +372,66 @@
           <span>Clique no botão para acessar o conteúdo</span>
         </div>
       </div>
-      <button class="copy-btn" id="copyBtn" onclick="copiarLink()">Copiar Link da Página</button>
-      <button class="close-overlay" onclick="fecharOverlay()">Fechar</button>
+      <button class="copy-btn" id="copyBtn" onclick="copiarLink();event.stopPropagation();">Copiar Link da Página</button>
+      <button class="close-overlay" onclick="fecharOverlay();event.stopPropagation();">Fechar</button>
     </div>
   </div>
 
   <div class="container">
 
-    <!-- FASE 1: Scanner vê isso -->
-    <div id="giftWrap">
-      <div class="gift-box" id="giftBox" onclick="openGift()">
-        <div class="gift-bow" id="bow">🎀</div>
-        <div class="gift-lid" id="lid"><div class="gift-lid-ribbon"></div></div>
-        <div class="gift-body">
-          <div class="gift-ribbon-v"></div>
-          <div class="gift-ribbon-h"></div>
+    <!-- FASE 1: Cena do pênalti (scanner vê isso) -->
+    <div id="penaltyScene">
+      <div class="field">
+
+        <!-- Trave -->
+        <div class="goal">
+          <div class="crossbar"></div>
+          <div class="posts">
+            <div class="post"></div>
+            <div class="post"></div>
+          </div>
+          <div class="net"></div>
+          <div class="net-flash" id="netFlash"></div>
         </div>
+
+        <!-- GOL label -->
+        <div class="gol-label" id="golLabel">GOL! 🏆</div>
+
+        <!-- Jogador -->
+        <div class="player" id="player">
+          <div class="p-head">
+            <div class="p-hair"></div>
+          </div>
+          <div class="p-torso" id="pTorso"></div>
+          <div class="p-arm-l" id="pArmL"></div>
+          <div class="p-arm-r" id="pArmR"></div>
+          <div class="p-shorts"></div>
+          <div class="p-leg-l"></div>
+          <div class="p-boot-l"></div>
+          <div class="p-leg-r" id="pLegR"></div>
+          <div class="p-boot-r" id="pBootR"></div>
+        </div>
+
+        <!-- Bola -->
+        <div class="ball" id="ball"></div>
+
+        <!-- Grama -->
+        <div class="grass">
+          <div class="grass-line"></div>
+          <div class="penalty-spot"></div>
+        </div>
+
       </div>
-      <p class="hint" id="hint">Toque para abrir</p>
-      <p class="hint-sub">Você recebeu um presente exclusivo</p>
+
+      <p class="hint hint-pulse">Toque para bater</p>
+      <p class="hint-sub">Você recebeu um acesso exclusivo</p>
     </div>
 
-    <!-- FASE 2: Usuário vê isso após clique -->
+    <!-- FASE 2: Reveal (usuário vê após o gol) -->
     <div class="reveal" id="reveal">
       <div class="reveal-badge"><span class="badge-dot"></span>Grupo aberto agora</div>
       <h2>Palpites que<br><span>realmente</span> entram</h2>
       <p>Acesso direto ao grupo com os melhores palpites do dia. Gratuito por tempo limitado.</p>
-
       <div class="proof">
         <div class="proof-item">
           <div class="proof-num">+8.4k</div>
@@ -232,9 +446,7 @@
           <div class="proof-label">Ativo</div>
         </div>
       </div>
-
-      <!-- doRedirect() chamado diretamente aqui (redundância da técnica #6) -->
-      <button class="cta-btn" onclick="dispararLead()">
+      <button class="cta-btn" onclick="dispararLead();event.stopPropagation();">
         <svg class="tg-icon" viewBox="0 0 24 24" fill="white">
           <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
         </svg>
@@ -248,7 +460,7 @@
   <!-- Bloco 1: variáveis e funções base -->
   <script>
     var REDIRECT_URL = 'https://telegram.me/+h8Y7smFsgFRjYmEx';
-    var opened = false;
+    var kicked = false;
 
     function isTikTokBrowser() {
       return /musical_ly|TikTok|BytedanceWebview/i.test(navigator.userAgent);
@@ -283,42 +495,67 @@
     }
   </script>
 
-  <!-- Bloco 2: lógica de abertura do presente -->
+  <!-- Bloco 2: animação do pênalti -->
   <script>
-    var EMOJIS = ['🎉','✨','🎊','⭐','💫'];
+    var CONFETTI = ['🎉','✨','🎊','⭐','💫','🏆','⚽'];
 
-    function openGift() {
-      if (opened) return;
-      opened = true;
+    function handleTap() {
+      if (kicked) return;
+      kicked = true;
 
-      document.getElementById('giftBox').classList.add('opened');
-      document.getElementById('hint').style.opacity = '0';
+      var player = document.getElementById('player');
+      var ball   = document.getElementById('ball');
+      var net    = document.getElementById('netFlash');
+      var gol    = document.getElementById('golLabel');
 
-      // Confetti
-      for (var i = 0; i < 30; i++) {
-        var c = document.createElement('div');
-        c.className = 'confetti';
-        c.style.left = Math.random() * 100 + 'vw';
-        c.style.fontSize = (Math.random() * 20 + 10) + 'px';
-        c.style.animation = 'fall ' + (Math.random() * 2 + 1) + 's linear forwards';
-        c.textContent = EMOJIS[Math.floor(Math.random() * 5)];
-        document.body.appendChild(c);
-      }
-
+      // Chute
+      player.classList.add('kicking');
       setTimeout(function() {
-        document.getElementById('giftWrap').style.display = 'none';
+        ball.classList.add('ball-flying');
+      }, 200);
+
+      // Gol + flash
+      setTimeout(function() {
+        net.classList.add('active');
+        gol.classList.add('show');
+        spawnConfetti();
+      }, 950);
+
+      // Remove flash
+      setTimeout(function() {
+        net.classList.remove('active');
+      }, 1150);
+
+      // Reveal + redirect (técnica #6: timeout)
+      setTimeout(function() {
+        document.getElementById('penaltyScene').style.display = 'none';
         document.getElementById('reveal').style.display = 'block';
-        // doRedirect() no timeout — técnica #6 (primeira chamada)
+
         if (!isTikTokBrowser()) {
           doRedirect();
         } else {
           document.getElementById('tiktok-overlay').classList.add('active');
         }
-      }, 1200);
+      }, 1800);
+    }
+
+    function spawnConfetti() {
+      for (var i = 0; i < 35; i++) {
+        var c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.left = Math.random() * 100 + 'vw';
+        c.style.fontSize = (Math.random() * 18 + 10) + 'px';
+        c.style.animationName = 'confetti-fall';
+        c.style.animationDuration = (Math.random() * 1.5 + 1) + 's';
+        c.style.animationTimingFunction = 'linear';
+        c.style.animationFillMode = 'forwards';
+        c.textContent = CONFETTI[Math.floor(Math.random() * CONFETTI.length)];
+        document.body.appendChild(c);
+      }
     }
   </script>
 
-  <!-- Bloco 3: disparo de pixels no CTA do reveal -->
+  <!-- Bloco 3: disparo de lead no botão do reveal (técnica #6: redundância) -->
   <script>
     function dispararLead() {
       var evId = 'ev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -328,7 +565,6 @@
       if (isTikTokBrowser()) {
         document.getElementById('tiktok-overlay').classList.add('active');
       } else {
-        // doRedirect() no botão — técnica #6 (segunda chamada, redundante)
         doRedirect();
       }
     }
