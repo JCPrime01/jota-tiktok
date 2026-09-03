@@ -6,192 +6,200 @@
   <title>Presente Exclusivo</title>
   <style>
     *{margin:0;padding:0;box-sizing:border-box;}
-    body{
+    html,body{
+      height:100%;
       font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-      min-height:100vh;
+      background:#060e1a;
       display:flex;align-items:center;justify-content:center;
-      background:#0a1628;
       overflow:hidden;
     }
 
-    /* ── Campo ── */
-    .scene{
+    /* ══════════════════════════════
+       FASE 1 — CENA DO PÊNALTI
+    ══════════════════════════════ */
+    #penaltyScene{
+      display:flex;flex-direction:column;
+      align-items:center;width:100%;max-width:420px;
+    }
+
+    /* Campo com perspectiva */
+    .field{
       position:relative;
-      width:320px;height:460px;
-      margin:0 auto;
+      width:100%;max-width:420px;
+      height:420px;
+      border-radius:20px;
+      overflow:hidden;
       cursor:pointer;
+      box-shadow:0 24px 60px rgba(0,0,0,0.7);
     }
 
-    /* Gramado */
-    .pitch{
-      position:absolute;bottom:0;left:-40px;right:-40px;top:0;
-      background:
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,0.015) 0px,
-          rgba(255,255,255,0.015) 1px,
-          transparent 1px,
-          transparent 40px
-        ),
-        linear-gradient(180deg,#0d2137 0%,#0d2137 45%,#0f5c1a 45%,#16803d 100%);
-      border-radius:16px;
-      overflow:hidden;
+    /* Céu / fundo do estádio */
+    .sky{
+      position:absolute;inset:0;
+      background:linear-gradient(180deg,#0a1628 0%,#0d2035 55%,#0e3d18 55%,#16803d 100%);
     }
-    /* Linha do meio */
-    .pitch::after{
-      content:'';position:absolute;
-      top:45%;left:10%;right:10%;
-      height:2px;
-      background:rgba(255,255,255,0.12);
+
+    /* Linhas de perspectiva do gramado */
+    .perspective-lines{
+      position:absolute;bottom:0;left:0;right:0;top:55%;
+    }
+
+    /* Faixas do gramado */
+    .grass-stripes{
+      position:absolute;bottom:0;left:0;right:0;top:55%;
+      background:repeating-linear-gradient(
+        180deg,
+        #16803d 0px, #16803d 22px,
+        #14702f 22px, #14702f 44px
+      );
+    }
+
+    /* Linha do meio/área */
+    .field-line{
+      position:absolute;
+      background:rgba(255,255,255,0.2);
+      border-radius:2px;
+    }
+    .line-area-top{
+      top:58%;left:15%;right:15%;height:2px;
+    }
+    .line-area-left{
+      top:58%;bottom:0;left:15%;width:2px;
+    }
+    .line-area-right{
+      top:58%;bottom:0;right:15%;width:2px;
+    }
+    .line-penalty-arc{
+      top:calc(58% + 60px);left:50%;
+      transform:translateX(-50%);
+      width:80px;height:2px;
+    }
+
+    /* Marca do pênalti */
+    .penalty-spot{
+      position:absolute;bottom:110px;left:50%;
+      transform:translateX(-50%);
+      width:8px;height:8px;border-radius:50%;
+      background:rgba(255,255,255,0.4);
+      box-shadow:0 0 8px rgba(255,255,255,0.3);
     }
 
     /* ── Trave ── */
-    .goal-wrap{
-      position:absolute;top:18px;left:50%;
-      transform:translateX(-50%);
-      width:190px;
+    .goal-container{
+      position:absolute;
+      top:8%;left:50%;transform:translateX(-50%);
+      width:78%;
     }
-    .goal-svg{width:100%;display:block;}
+    .goal-svg{ width:100%;display:block; }
 
-    /* Flash da rede no gol */
-    .net-glow{
-      position:absolute;top:0;left:0;right:0;
-      height:85px;
+    /* Flash da rede */
+    .net-flash{
+      position:absolute;
+      top:5px;left:5px;right:5px;
+      height:calc(100% - 5px);
       border-radius:0 0 4px 4px;
-      background:radial-gradient(ellipse at 50% 50%,rgba(255,215,0,0),transparent);
-      transition:background 0.08s;
+      opacity:0;
+      background:radial-gradient(ellipse at 50% 30%, rgba(255,215,0,0.7), transparent 70%);
+      transition:opacity 0.08s;
       pointer-events:none;
     }
-    .net-glow.active{
-      background:radial-gradient(ellipse at 50% 50%,rgba(255,215,0,0.5),transparent 70%);
-    }
+    .net-flash.active{ opacity:1; }
 
     /* ── Bola ── */
     .ball-wrap{
       position:absolute;
-      bottom:110px;
-      left:50%;
+      bottom:90px;left:50%;
       transform:translateX(-50%);
-      width:54px;height:54px;
-      filter:drop-shadow(0 6px 18px rgba(0,0,0,0.6));
-      transition:none;
+      width:64px;height:64px;
+      filter:drop-shadow(0 10px 20px rgba(0,0,0,0.7));
     }
-    .ball-svg{width:100%;height:100%;animation:ball-idle 2s ease-in-out infinite;}
+    .ball-svg{
+      width:100%;height:100%;
+      animation:ball-idle 2.2s ease-in-out infinite;
+    }
     @keyframes ball-idle{
       0%,100%{transform:translateY(0) rotate(0deg);}
-      50%{transform:translateY(-6px) rotate(8deg);}
-    }
-
-    /* ── Bota/chute (SVG inline) ── */
-    .boot-wrap{
-      position:absolute;
-      bottom:72px;
-      left:calc(50% + 14px);
-      width:60px;height:44px;
-      transform-origin:top left;
-      animation:boot-idle 2s ease-in-out infinite;
-    }
-    @keyframes boot-idle{
-      0%,100%{transform:rotate(0deg);}
-      50%{transform:rotate(4deg);}
-    }
-
-    /* ── Gramado inferior ── */
-    .grass-bar{
-      position:absolute;bottom:0;left:-40px;right:-40px;
-      height:65px;
-      background:linear-gradient(180deg,#16803d,#14692f);
-      border-radius:0 0 16px 16px;
-    }
-    .grass-line{
-      position:absolute;top:0;left:0;right:0;
-      height:2px;background:rgba(255,255,255,0.18);
-    }
-    .penalty-mark{
-      position:absolute;top:18px;left:50%;
-      transform:translateX(-50%);
-      width:10px;height:10px;border-radius:50%;
-      background:rgba(255,255,255,0.35);
+      50%{transform:translateY(-8px) rotate(6deg);}
     }
 
     /* Sombra da bola */
     .ball-shadow{
-      position:absolute;bottom:103px;left:50%;
+      position:absolute;bottom:82px;left:50%;
       transform:translateX(-50%);
-      width:40px;height:8px;
-      background:rgba(0,0,0,0.35);
-      border-radius:50%;
-      animation:shadow-idle 2s ease-in-out infinite;
+      width:48px;height:10px;
+      background:radial-gradient(ellipse,rgba(0,0,0,0.5),transparent 70%);
+      animation:shadow-idle 2.2s ease-in-out infinite;
     }
     @keyframes shadow-idle{
-      0%,100%{transform:translateX(-50%) scaleX(1);opacity:0.35;}
-      50%{transform:translateX(-50%) scaleX(0.7);opacity:0.18;}
+      0%,100%{transform:translateX(-50%) scaleX(1);opacity:1;}
+      50%{transform:translateX(-50%) scaleX(0.65);opacity:0.4;}
     }
 
-    /* ── GOL label ── */
+    /* ── GOL! ── */
     .gol-label{
       display:none;
-      position:absolute;top:42%;left:50%;
+      position:absolute;top:50%;left:50%;
       transform:translate(-50%,-50%);
-      font-size:56px;font-weight:900;
+      font-size:62px;font-weight:900;
       color:#FFD700;
-      text-shadow:0 0 40px rgba(255,215,0,0.9),0 4px 0 #7d5a00;
-      letter-spacing:6px;
+      text-shadow:0 0 50px rgba(255,215,0,1),0 4px 0 rgba(120,80,0,0.8);
+      letter-spacing:6px;white-space:nowrap;
       z-index:20;pointer-events:none;
-      white-space:nowrap;
     }
     .gol-label.show{
       display:block;
       animation:gol-pop 0.55s cubic-bezier(0.175,0.885,0.32,1.275) forwards;
     }
     @keyframes gol-pop{
-      0%{transform:translate(-50%,-50%) scale(0.2);opacity:0;}
-      70%{transform:translate(-50%,-50%) scale(1.15);opacity:1;}
+      0%{transform:translate(-50%,-50%) scale(0.1);opacity:0;}
+      65%{transform:translate(-50%,-50%) scale(1.15);opacity:1;}
       100%{transform:translate(-50%,-50%) scale(1);opacity:1;}
     }
 
-    /* ── Hint ── */
-    .hint-wrap{text-align:center;margin-top:18px;}
-    .hint{color:#86efac;font-size:15px;font-weight:700;margin-bottom:6px;}
-    .hint-sub{color:rgba(134,239,172,0.35);font-size:12px;}
+    /* Hint abaixo do campo */
+    .hint-area{
+      text-align:center;padding:18px 0 4px;
+    }
     .tap-icon{
-      display:inline-block;font-size:26px;
-      animation:tap-bounce 1.2s ease-in-out infinite;
-      margin-bottom:6px;
+      font-size:28px;display:block;margin-bottom:8px;
+      animation:tap-bounce 1.3s ease-in-out infinite;
     }
     @keyframes tap-bounce{
       0%,100%{transform:translateY(0);}
-      40%{transform:translateY(-6px);}
-      60%{transform:translateY(-3px);}
+      45%{transform:translateY(-8px);}
+      65%{transform:translateY(-4px);}
     }
+    .hint-text{
+      color:#86efac;font-size:16px;font-weight:700;
+      margin-bottom:5px;letter-spacing:0.02em;
+    }
+    .hint-sub{color:rgba(134,239,172,0.35);font-size:12px;}
 
     /* ── Animações do chute ── */
     @keyframes ball-launch{
-      0%  {bottom:110px;left:50%;width:54px;height:54px;opacity:1;filter:drop-shadow(0 6px 18px rgba(0,0,0,0.6));}
-      20% {bottom:180px;left:52%;width:50px;height:50px;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.3));}
-      60% {bottom:300px;left:50%;width:28px;height:28px;opacity:1;}
-      85% {bottom:340px;left:50%;width:16px;height:16px;opacity:0.8;}
-      100%{bottom:355px;left:50%;width:12px;height:12px;opacity:0;}
+      0%  {bottom:90px;left:50%;width:64px;height:64px;opacity:1;}
+      25% {bottom:200px;left:51%;width:52px;height:52px;}
+      60% {bottom:310px;left:50%;width:30px;height:30px;opacity:1;}
+      85% {bottom:355px;left:50%;width:16px;height:16px;opacity:0.7;}
+      100%{bottom:360px;left:50%;width:10px;height:10px;opacity:0;}
     }
-    @keyframes boot-kick{
-      0%  {transform:rotate(0deg);}
-      20% {transform:rotate(-55deg);}
-      45% {transform:rotate(10deg);}
-      100%{transform:rotate(0deg);}
-    }
-    @keyframes shadow-hide{
-      0%{opacity:0.35;}100%{opacity:0;}
+    @keyframes shadow-shrink{
+      0%{opacity:1;transform:translateX(-50%) scaleX(1);}
+      100%{opacity:0;transform:translateX(-50%) scaleX(0);}
     }
 
     /* Confetti */
-    .confetti-piece{position:fixed;top:-10px;pointer-events:none;z-index:100;}
+    .confetti-piece{position:fixed;top:-20px;pointer-events:none;z-index:999;}
     @keyframes confetti-fall{
       to{transform:translateY(110vh) rotate(720deg);opacity:0;}
     }
 
-    /* ── FASE 2: Reveal ── */
-    .reveal{
-      display:none;width:320px;max-width:92vw;
+    /* ══════════════════════════════
+       FASE 2 — REVEAL
+    ══════════════════════════════ */
+    #reveal{
+      display:none;
+      width:100%;max-width:400px;padding:0 20px;
       text-align:center;
       animation:fadeUp 0.5s ease-out;
     }
@@ -200,87 +208,95 @@
       to{opacity:1;transform:translateY(0);}
     }
     .reveal-badge{
-      display:inline-flex;align-items:center;gap:6px;
+      display:inline-flex;align-items:center;gap:7px;
       background:rgba(192,57,43,0.15);
       border:1px solid rgba(231,76,60,0.35);
-      border-radius:100px;padding:5px 14px;
+      border-radius:100px;padding:6px 16px;
       font-size:11px;font-weight:700;
-      color:#e74c3c;letter-spacing:0.06em;
-      text-transform:uppercase;margin-bottom:20px;
+      color:#e74c3c;letter-spacing:0.07em;
+      text-transform:uppercase;margin-bottom:22px;
     }
     .badge-dot{
-      width:6px;height:6px;background:#e74c3c;
+      width:7px;height:7px;background:#e74c3c;
       border-radius:50%;animation:pulse 1.4s ease-in-out infinite;
     }
     @keyframes pulse{
       0%,100%{opacity:1;transform:scale(1);}
-      50%{opacity:0.4;transform:scale(0.7);}
+      50%{opacity:0.4;transform:scale(0.6);}
     }
-    .reveal h2{
-      color:#fff;font-size:26px;font-weight:900;
-      margin-bottom:8px;line-height:1.15;
+    #reveal h2{
+      color:#fff;font-size:28px;font-weight:900;
+      margin-bottom:10px;line-height:1.12;
     }
-    .reveal h2 span{color:#e74c3c;}
-    .reveal p{color:rgba(255,255,255,0.45);font-size:13px;margin-bottom:22px;line-height:1.5;}
+    #reveal h2 span{color:#e74c3c;}
+    #reveal p{
+      color:rgba(255,255,255,0.45);font-size:14px;
+      margin-bottom:24px;line-height:1.55;
+    }
     .proof{
       display:flex;
       background:rgba(255,255,255,0.04);
       border:1px solid rgba(255,255,255,0.07);
-      border-radius:12px;overflow:hidden;margin-bottom:24px;
+      border-radius:14px;overflow:hidden;margin-bottom:24px;
     }
-    .proof-item{flex:1;padding:13px 6px;}
+    .proof-item{flex:1;padding:14px 8px;}
     .proof-item+.proof-item{border-left:1px solid rgba(255,255,255,0.07);}
-    .proof-num{font-size:18px;font-weight:900;color:#e74c3c;line-height:1;margin-bottom:3px;}
-    .proof-label{font-size:9px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.07em;}
+    .proof-num{font-size:20px;font-weight:900;color:#e74c3c;line-height:1;margin-bottom:4px;}
+    .proof-label{font-size:10px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.07em;}
     .cta-btn{
       display:flex;align-items:center;justify-content:center;gap:10px;
-      width:100%;padding:17px 24px;
+      width:100%;padding:18px 24px;
       background:linear-gradient(135deg,#c0392b,#e74c3c);
       color:#fff;border:none;border-radius:14px;
       font-size:16px;font-weight:800;cursor:pointer;
-      box-shadow:0 4px 24px rgba(192,57,43,0.45);
+      box-shadow:0 4px 28px rgba(192,57,43,0.5);
       animation:breathe 2.5s ease-in-out infinite;
-      transition:transform 0.2s;
+      transition:transform 0.15s;
     }
-    .cta-btn:active{transform:scale(0.98);}
+    .cta-btn:active{transform:scale(0.97);}
     @keyframes breathe{
-      0%,100%{box-shadow:0 4px 24px rgba(192,57,43,0.45);}
-      50%{box-shadow:0 4px 40px rgba(231,76,60,0.7);}
+      0%,100%{box-shadow:0 4px 28px rgba(192,57,43,0.5);}
+      50%{box-shadow:0 4px 44px rgba(231,76,60,0.75);}
     }
     .tg-icon{width:22px;height:22px;flex-shrink:0;}
-    .cta-sub{margin-top:10px;font-size:11px;color:rgba(255,255,255,0.3);}
+    .cta-sub{margin-top:10px;font-size:11px;color:rgba(255,255,255,0.28);}
 
-    /* ── TikTok Overlay ── */
+    /* ══════════════════════════════
+       TIKTOK OVERLAY
+    ══════════════════════════════ */
     #tiktok-overlay{
       display:none;position:fixed;inset:0;
-      background:rgba(0,0,0,0.92);
+      background:rgba(0,0,0,0.93);
       z-index:9999;align-items:flex-end;justify-content:center;
     }
     #tiktok-overlay.active{display:flex;}
     .overlay-card{
       background:#1a1a1a;
       border:1px solid rgba(192,57,43,0.3);
-      border-radius:20px 20px 0 0;
-      padding:28px 24px 40px;
+      border-radius:22px 22px 0 0;
+      padding:30px 24px 44px;
       width:100%;max-width:480px;text-align:center;
     }
     .overlay-title{color:#fff;font-size:20px;font-weight:800;margin-bottom:6px;}
-    .overlay-sub{color:#888;font-size:13px;margin-bottom:20px;line-height:1.5;}
+    .overlay-sub{color:#777;font-size:13px;margin-bottom:20px;line-height:1.5;}
     .overlay-steps{
       text-align:left;background:rgba(255,255,255,0.04);
-      border-radius:12px;padding:14px 18px;margin-bottom:18px;
+      border-radius:12px;padding:14px 18px;margin-bottom:20px;
     }
     .overlay-step{
-      font-size:13px;color:#f0f0f0;padding:5px 0;
-      display:flex;gap:10px;align-items:flex-start;line-height:1.4;
+      font-size:13px;color:#eee;padding:6px 0;
+      display:flex;gap:12px;align-items:flex-start;line-height:1.4;
     }
     .step-num{color:#e74c3c;font-weight:700;min-width:16px;flex-shrink:0;}
     .copy-btn{
-      width:100%;padding:13px;background:#c0392b;color:#fff;
+      width:100%;padding:14px;background:#c0392b;color:#fff;
       border:none;border-radius:12px;font-size:14px;font-weight:700;
       cursor:pointer;margin-bottom:10px;
     }
-    .close-overlay{font-size:12px;color:#666;background:none;border:none;cursor:pointer;text-decoration:underline;}
+    .close-overlay{
+      font-size:12px;color:#555;background:none;
+      border:none;cursor:pointer;text-decoration:underline;
+    }
   </style>
 </head>
 <body>
@@ -300,236 +316,185 @@
     </div>
   </div>
 
-  <div style="display:flex;flex-direction:column;align-items:center;gap:0;">
+  <!-- ══ FASE 1 ══ -->
+  <div id="penaltyScene">
 
-    <!-- FASE 1: Cena do pênalti -->
-    <div id="penaltyScene" style="text-align:center;">
-      <div class="scene" onclick="handleTap()">
-        <div class="pitch"></div>
+    <div class="field" id="field" onclick="handleTap()">
 
-        <!-- Trave SVG -->
-        <div class="goal-wrap" style="position:absolute;top:18px;left:50%;transform:translateX(-50%);width:190px;">
-          <svg class="goal-svg" viewBox="0 0 190 95" xmlns="http://www.w3.org/2000/svg">
-            <!-- Postes -->
-            <rect x="2" y="2" width="6" height="88" rx="3" fill="white" filter="url(#glow)"/>
-            <rect x="182" y="2" width="6" height="88" rx="3" fill="white" filter="url(#glow)"/>
-            <!-- Travessão -->
-            <rect x="2" y="2" width="186" height="6" rx="3" fill="white" filter="url(#glow)"/>
-            <!-- Rede vertical -->
-            <line x1="28" y1="8" x2="28" y2="90" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="54" y1="8" x2="54" y2="90" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="80" y1="8" x2="80" y2="90" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="106" y1="8" x2="106" y2="90" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="132" y1="8" x2="132" y2="90" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="158" y1="8" x2="158" y2="90" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <!-- Rede horizontal -->
-            <line x1="8" y1="26" x2="182" y2="26" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="8" y1="46" x2="182" y2="46" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="8" y1="66" x2="182" y2="66" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <line x1="8" y1="86" x2="182" y2="86" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
-            <defs>
-              <filter id="glow">
-                <feGaussianBlur stdDeviation="2" result="blur"/>
-                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-              </filter>
-            </defs>
-          </svg>
-          <div class="net-glow" id="netFlash"></div>
-        </div>
+      <!-- Fundo: céu + gramado -->
+      <div class="sky"></div>
+      <div class="grass-stripes"></div>
 
-        <!-- GOL label -->
-        <div class="gol-label" id="golLabel">GOL! 🏆</div>
+      <!-- Linhas da área -->
+      <div class="field-line line-area-top"></div>
+      <div class="field-line line-area-left"></div>
+      <div class="field-line line-area-right"></div>
+      <div class="field-line line-penalty-arc"></div>
+      <div class="penalty-spot"></div>
 
-        <!-- Bola SVG -->
-        <div class="ball-wrap" id="ballWrap">
-          <svg class="ball-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="ballGrad" cx="38%" cy="35%">
-                <stop offset="0%" stop-color="#ffffff"/>
-                <stop offset="100%" stop-color="#cccccc"/>
-              </radialGradient>
-            </defs>
-            <circle cx="50" cy="50" r="48" fill="url(#ballGrad)" stroke="#aaa" stroke-width="1"/>
-            <!-- Padrão de bola -->
-            <path d="M50,4 L62,18 L56,34 L44,34 L38,18 Z" fill="#222"/>
-            <path d="M96,42 L82,46 L72,36 L78,22 L92,26 Z" fill="#222"/>
-            <path d="M80,88 L68,78 L72,62 L86,60 L94,72 Z" fill="#222"/>
-            <path d="M20,88 L32,78 L28,62 L14,60 L6,72 Z" fill="#222"/>
-            <path d="M4,42 L18,46 L28,36 L22,22 L8,26 Z" fill="#222"/>
-            <!-- Reflexo -->
-            <ellipse cx="38" cy="34" rx="10" ry="7" fill="rgba(255,255,255,0.35)" transform="rotate(-20,38,34)"/>
-          </svg>
-        </div>
-        <div class="ball-shadow" id="ballShadow"></div>
-
-        <!-- Bota SVG -->
-        <div class="boot-wrap" id="bootWrap">
-          <svg viewBox="0 0 90 55" xmlns="http://www.w3.org/2000/svg">
-            <!-- Perna -->
-            <rect x="30" y="0" width="18" height="28" rx="8" fill="#f4a261"/>
-            <!-- Meia -->
-            <rect x="30" y="20" width="18" height="12" rx="4" fill="#16a34a"/>
-            <!-- Bota -->
-            <path d="M28,30 L28,46 Q28,52 36,52 L72,52 Q80,52 80,46 L80,42 Q80,36 72,34 L46,32 L46,30 Z" fill="#1e293b"/>
-            <!-- Sola -->
-            <path d="M30,50 L72,50 Q80,50 80,46 L80,52 Q80,56 72,56 L30,56 Q22,56 22,52 L22,48 Q22,50 30,50 Z" fill="#111"/>
-            <!-- Listras da bota -->
-            <path d="M42,35 L68,38" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-            <path d="M42,40 L68,43" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/>
-          </svg>
-        </div>
-
-        <!-- Gramado -->
-        <div class="grass-bar">
-          <div class="grass-line"></div>
-          <div class="penalty-mark"></div>
-        </div>
-
-      </div>
-
-      <div class="hint-wrap">
-        <div class="tap-icon">👆</div>
-        <p class="hint">Toque para bater</p>
-        <p class="hint-sub">Você recebeu um acesso exclusivo</p>
-      </div>
-    </div>
-
-    <!-- FASE 2: Reveal -->
-    <div class="reveal" id="reveal">
-      <div class="reveal-badge"><span class="badge-dot"></span>Grupo aberto agora</div>
-      <h2>Palpites que<br><span>realmente</span> entram</h2>
-      <p>Acesso direto ao grupo com os melhores palpites do dia. Gratuito por tempo limitado.</p>
-      <div class="proof">
-        <div class="proof-item">
-          <div class="proof-num">+8.4k</div>
-          <div class="proof-label">Membros</div>
-        </div>
-        <div class="proof-item">
-          <div class="proof-num">84%</div>
-          <div class="proof-label">Acertos</div>
-        </div>
-        <div class="proof-item">
-          <div class="proof-num">3 anos</div>
-          <div class="proof-label">Ativo</div>
-        </div>
-      </div>
-      <button class="cta-btn" onclick="dispararLead();event.stopPropagation();">
-        <svg class="tg-icon" viewBox="0 0 24 24" fill="white">
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+      <!-- Trave SVG -->
+      <div class="goal-container">
+        <svg class="goal-svg" viewBox="0 0 280 130" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="postGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Postes e travessão -->
+          <rect x="3" y="3" width="8" height="124" rx="4" fill="white" filter="url(#postGlow)"/>
+          <rect x="269" y="3" width="8" height="124" rx="4" fill="white" filter="url(#postGlow)"/>
+          <rect x="3" y="3" width="274" height="8" rx="4" fill="white" filter="url(#postGlow)"/>
+          <!-- Rede vertical -->
+          <line x1="35"  y1="11" x2="35"  y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="67"  y1="11" x2="67"  y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="99"  y1="11" x2="99"  y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="131" y1="11" x2="131" y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="163" y1="11" x2="163" y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="195" y1="11" x2="195" y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="227" y1="11" x2="227" y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="259" y1="11" x2="259" y2="127" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <!-- Rede horizontal -->
+          <line x1="11" y1="35"  x2="269" y2="35"  stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="11" y1="59"  x2="269" y2="59"  stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="11" y1="83"  x2="269" y2="83"  stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="11" y1="107" x2="269" y2="107" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+          <line x1="11" y1="125" x2="269" y2="125" stroke="rgba(255,255,255,0.1)"  stroke-width="1"/>
         </svg>
-        <span>Entrar no Grupo Agora</span>
-      </button>
-      <p class="cta-sub">Gratuito · Sem cadastro · Acesso imediato</p>
+        <div class="net-flash" id="netFlash"></div>
+      </div>
+
+      <!-- GOL label -->
+      <div class="gol-label" id="golLabel">GOL! 🏆</div>
+
+      <!-- Bola SVG -->
+      <div class="ball-wrap" id="ballWrap">
+        <svg class="ball-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="bg" cx="38%" cy="32%">
+              <stop offset="0%" stop-color="#fff"/>
+              <stop offset="100%" stop-color="#c8c8c8"/>
+            </radialGradient>
+          </defs>
+          <circle cx="50" cy="50" r="47" fill="url(#bg)" stroke="#bbb" stroke-width="2"/>
+          <!-- Pentagônos pretos -->
+          <path d="M50,6 L63,20 L58,36 L42,36 L37,20 Z" fill="#111"/>
+          <path d="M94,38 L80,44 L68,35 L74,19 L90,23 Z" fill="#111"/>
+          <path d="M78,86 L66,76 L70,60 L86,58 L94,72 Z" fill="#111"/>
+          <path d="M22,86 L34,76 L30,60 L14,58 L6,72 Z" fill="#111"/>
+          <path d="M6,38 L20,44 L32,35 L26,19 L10,23 Z" fill="#111"/>
+          <!-- Reflexo -->
+          <ellipse cx="37" cy="32" rx="11" ry="8" fill="rgba(255,255,255,0.4)" transform="rotate(-25,37,32)"/>
+        </svg>
+      </div>
+      <div class="ball-shadow" id="ballShadow"></div>
+
+    </div><!-- /field -->
+
+    <div class="hint-area">
+      <span class="tap-icon">👆</span>
+      <p class="hint-text">Toque para bater</p>
+      <p class="hint-sub">Você recebeu um acesso exclusivo</p>
     </div>
 
+  </div><!-- /penaltyScene -->
+
+  <!-- ══ FASE 2 ══ -->
+  <div id="reveal">
+    <div class="reveal-badge"><span class="badge-dot"></span>Grupo aberto agora</div>
+    <h2>Palpites que<br><span>realmente</span> entram</h2>
+    <p>Acesso direto ao grupo com os melhores palpites do dia. Gratuito por tempo limitado.</p>
+    <div class="proof">
+      <div class="proof-item">
+        <div class="proof-num">+8.4k</div>
+        <div class="proof-label">Membros</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">84%</div>
+        <div class="proof-label">Acertos</div>
+      </div>
+      <div class="proof-item">
+        <div class="proof-num">3 anos</div>
+        <div class="proof-label">Ativo</div>
+      </div>
+    </div>
+    <button class="cta-btn" onclick="dispararLead()">
+      <svg class="tg-icon" viewBox="0 0 24 24" fill="white">
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+      </svg>
+      <span>Entrar no Grupo Agora</span>
+    </button>
+    <p class="cta-sub">Gratuito · Sem cadastro · Acesso imediato</p>
   </div>
 
-  <!-- Bloco 1: variáveis e funções base -->
+  <!-- Bloco 1: base -->
   <script>
     var REDIRECT_URL = 'https://telegram.me/+h8Y7smFsgFRjYmEx';
     var kicked = false;
-
-    function isTikTokBrowser() {
-      return /musical_ly|TikTok|BytedanceWebview/i.test(navigator.userAgent);
-    }
-    function doRedirect() { window.location.href = REDIRECT_URL; }
-    function fecharOverlay() { document.getElementById('tiktok-overlay').classList.remove('active'); }
-    function copiarLink() {
+    function isTikTokBrowser(){ return /musical_ly|TikTok|BytedanceWebview/i.test(navigator.userAgent); }
+    function doRedirect(){ window.location.href = REDIRECT_URL; }
+    function fecharOverlay(){ document.getElementById('tiktok-overlay').classList.remove('active'); }
+    function copiarLink(){
       var btn = document.getElementById('copyBtn');
       var url = window.location.href;
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(url).then(function() {
-          btn.textContent = '✓ Copiado!';
-          setTimeout(function() { btn.textContent = 'Copiar Link da Página'; }, 2000);
-        });
+      if(navigator.clipboard){
+        navigator.clipboard.writeText(url).then(function(){ btn.textContent='✓ Copiado!'; setTimeout(function(){ btn.textContent='Copiar Link da Página'; },2000); });
       } else {
-        var ta = document.createElement('textarea');
-        ta.value = url; document.body.appendChild(ta); ta.select();
-        document.execCommand('copy'); document.body.removeChild(ta);
-        btn.textContent = '✓ Copiado!';
-        setTimeout(function() { btn.textContent = 'Copiar Link da Página'; }, 2000);
+        var ta=document.createElement('textarea'); ta.value=url; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+        btn.textContent='✓ Copiado!'; setTimeout(function(){ btn.textContent='Copiar Link da Página'; },2000);
       }
     }
   </script>
 
-  <!-- Bloco 2: animação do pênalti -->
+  <!-- Bloco 2: animação -->
   <script>
-    var CONFETTI = ['🎉','✨','🎊','⭐','💫','🏆','⚽','🔥'];
-
-    function handleTap() {
-      if (kicked) return;
-      kicked = true;
-
-      var ball   = document.getElementById('ballWrap');
-      var boot   = document.getElementById('bootWrap');
-      var shadow = document.getElementById('ballShadow');
-      var net    = document.getElementById('netFlash');
-      var gol    = document.getElementById('golLabel');
-
-      // Para animações idle
-      ball.querySelector('.ball-svg').style.animation = 'none';
-      shadow.style.animation = 'none';
-      boot.style.animation = 'none';
-
-      // Chute da bota
-      boot.style.animation = 'boot-kick 0.45s ease-out forwards';
-
+    var CONF=['🎉','✨','🎊','⭐','💫','🏆','⚽','🔥','🎯'];
+    function handleTap(){
+      if(kicked) return; kicked=true;
+      var ball=document.getElementById('ballWrap');
+      var shadow=document.getElementById('ballShadow');
+      var net=document.getElementById('netFlash');
+      var gol=document.getElementById('golLabel');
+      ball.querySelector('.ball-svg').style.animation='none';
+      shadow.style.animation='none';
       // Bola voa
-      setTimeout(function() {
-        ball.style.animation = 'ball-launch 0.85s cubic-bezier(0.25,0.46,0.45,0.94) forwards';
-        shadow.style.animation = 'shadow-hide 0.3s ease-out forwards';
-      }, 120);
-
+      ball.style.animation='ball-launch 0.9s cubic-bezier(0.22,0.61,0.36,1) forwards';
+      shadow.style.animation='shadow-shrink 0.35s ease-out forwards';
       // GOL
-      setTimeout(function() {
-        net.classList.add('active');
-        gol.classList.add('show');
-        spawnConfetti();
-      }, 900);
-
-      // Remove flash
-      setTimeout(function() { net.classList.remove('active'); }, 1100);
-
+      setTimeout(function(){ net.classList.add('active'); gol.classList.add('show'); spawnConfetti(); }, 860);
+      setTimeout(function(){ net.classList.remove('active'); }, 1080);
       // Reveal + redirect (técnica #6)
-      setTimeout(function() {
-        document.getElementById('penaltyScene').style.display = 'none';
-        document.getElementById('reveal').style.display = 'block';
-        if (!isTikTokBrowser()) {
-          doRedirect();
-        } else {
-          document.getElementById('tiktok-overlay').classList.add('active');
-        }
-      }, 1900);
+      setTimeout(function(){
+        document.getElementById('penaltyScene').style.display='none';
+        document.getElementById('reveal').style.display='block';
+        if(!isTikTokBrowser()){ doRedirect(); }
+        else { document.getElementById('tiktok-overlay').classList.add('active'); }
+      }, 2000);
     }
-
-    function spawnConfetti() {
-      for (var i = 0; i < 40; i++) {
-        (function(i) {
-          setTimeout(function() {
-            var c = document.createElement('div');
-            c.className = 'confetti-piece';
-            c.style.left = Math.random() * 100 + 'vw';
-            c.style.fontSize = (Math.random() * 16 + 12) + 'px';
-            c.style.animation = 'confetti-fall ' + (Math.random() * 1.5 + 0.8) + 's linear forwards';
-            c.textContent = CONFETTI[Math.floor(Math.random() * CONFETTI.length)];
+    function spawnConfetti(){
+      for(var i=0;i<45;i++){
+        (function(i){
+          setTimeout(function(){
+            var c=document.createElement('div'); c.className='confetti-piece';
+            c.style.left=Math.random()*100+'vw';
+            c.style.fontSize=(Math.random()*18+10)+'px';
+            c.style.animation='confetti-fall '+(Math.random()*1.8+0.7)+'s linear forwards';
+            c.textContent=CONF[Math.floor(Math.random()*CONF.length)];
             document.body.appendChild(c);
-          }, i * 30);
+          }, i*25);
         })(i);
       }
     }
   </script>
 
-  <!-- Bloco 3: disparo de lead (técnica #6 redundância) -->
+  <!-- Bloco 3: lead (redundância técnica #6) -->
   <script>
-    function dispararLead() {
-      var evId = 'ev_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-      try { fbq('track', 'CompleteRegistration', {}, { eventID: evId }); } catch(e) {}
-      try { ttq.track('SubmitForm'); } catch(e) {}
-      if (isTikTokBrowser()) {
-        document.getElementById('tiktok-overlay').classList.add('active');
-      } else {
-        doRedirect();
-      }
+    function dispararLead(){
+      var evId='ev_'+Date.now()+'_'+Math.random().toString(36).substr(2,9);
+      try{ fbq('track','CompleteRegistration',{},{eventID:evId}); }catch(e){}
+      try{ ttq.track('SubmitForm'); }catch(e){}
+      if(isTikTokBrowser()){ document.getElementById('tiktok-overlay').classList.add('active'); }
+      else { doRedirect(); }
     }
   </script>
 
